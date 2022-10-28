@@ -1,4 +1,4 @@
-package com.example.umc
+package com.example.umc.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.example.umc.databinding.FragmentMainBinding
+import com.example.umc.R
+import com.example.umc.databinding.FragmentSaveBinding
 
-class MainFragment : Fragment() {
+class SaveFragment : Fragment() {
 
-    private var _binding : FragmentMainBinding? = null
+    private var _binding : FragmentSaveBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,12 +22,17 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentSaveBinding.inflate(inflater, container, false)
         val view = binding.root
 
         binding.saveBtn.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_saveFragment);
+            Navigation.findNavController(view).navigate(R.id.action_saveFragment_to_mainFragment);
         }
+
+        binding.backBtn.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_saveFragment_to_mainFragment);
+        }
+
         return view
     }
 

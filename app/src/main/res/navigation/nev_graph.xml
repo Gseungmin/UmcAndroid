@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.umc.MainFragment"
+        android:name="com.example.umc.ui.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/saveFragment"
-        android:name="com.example.umc.SaveFragment"
+        android:name="com.example.umc.ui.SaveFragment"
         android:label="fragment_save"
         tools:layout="@layout/fragment_save" >
         <action
