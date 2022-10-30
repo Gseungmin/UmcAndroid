@@ -15,7 +15,7 @@ interface MemoDao {
     suspend fun insertMemo(memo: MemoEntity)
 
     @Delete
-    suspend fun deleteBook(memo: MemoEntity)
+    suspend fun deleteMemo(memo: MemoEntity)
 
     @Query("SELECT * FROM memo_table")
     fun getMemos(): List<MemoEntity>
