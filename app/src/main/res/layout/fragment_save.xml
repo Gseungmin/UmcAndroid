@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="pu"
+    android:background="#EEEEEE"
     tools:context=".ui.SaveFragment">
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -16,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="10dp"
-            android:background="@color/black"
+            android:background="#2F2F2F"
             android:gravity="center"
             android:text="Title"
             android:textColor="@color/white"
@@ -24,31 +26,33 @@
 
         <EditText
             android:id="@+id/title"
-            android:lines="1"
-            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp">
-        </EditText>
+            android:layout_margin="20dp"
+            android:hint="제목을 입력하세요"
+            android:lines="1"
+            android:textStyle="bold"></EditText>
 
         <TextView
             android:id="@+id/notesBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="10dp"
-            android:background="@color/black"
+            android:background="#2F2F2F"
             android:gravity="center"
-            android:text="Title"
+            android:text="Notes"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"></TextView>
 
         <EditText
+
             android:id="@+id/notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:hint="내용을 입력하세요"
             android:inputType="textMultiLine"
             android:lines="5"
             android:maxLines="10"
@@ -56,24 +60,37 @@
 
     </LinearLayout>
 
-    <ImageView
+    <TextView
         android:id="@+id/saveBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_baseline_control_point_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"></ImageView>
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#B1B7C7"
+        android:gravity="center"
+        android:text="save"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/backBtn"></TextView>
 
-    <ImageView
+    <TextView
+        android:textSize="18dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="1dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="back"
+        android:background="#BDACAC"
         android:id="@+id/backBtn"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></ImageView>
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </TextView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
