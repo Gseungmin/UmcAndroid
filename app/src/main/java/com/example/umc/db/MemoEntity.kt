@@ -1,6 +1,5 @@
 package com.example.umc.db
 
-import android.widget.DatePicker
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,5 +12,7 @@ data class MemoEntity (
     @ColumnInfo(name = "title")
     var title : String,
     @ColumnInfo(name = "memo")
-    var memo : String
+    var memo : String,
+    @ColumnInfo(name = "date")
+    var date : String
 )
