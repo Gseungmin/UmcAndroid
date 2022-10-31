@@ -13,8 +13,10 @@ class MemoRVAdapter(private val dataSet : List<MemoEntity>) : RecyclerView.Adapt
         fun bindItems(item : MemoEntity) {
             val memoDate = binding.memoDate
             val memoTitle = binding.memoTitle
+            val memoNotes = binding.memoNotes
             memoDate.text = item.date
             memoTitle.text = item.title
+            memoNotes.text = item.memo
         }
 
     }
