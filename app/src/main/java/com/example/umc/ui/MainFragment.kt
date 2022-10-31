@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
 
         memoViewModel.getAllMemo()
 
-//        RecyclerView 기능
+        //RecyclerView 기능
         memoViewModel.memoList.observe(viewLifecycleOwner) {
             memoRVAdapter = MemoRVAdapter(it)
             val memo_rv : RecyclerView = binding.rv

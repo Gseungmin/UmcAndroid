@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:layout_marginBottom="1dp"
     android:orientation="vertical">
 
     <TextView
@@ -17,9 +18,10 @@
 
     <TextView
         android:id="@+id/memoTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:background="#EEEEEE"
         android:text="메모임"
         android:textSize="20dp"
         android:textStyle="bold"
