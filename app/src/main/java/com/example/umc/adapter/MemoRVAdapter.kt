@@ -16,6 +16,7 @@ class MemoRVAdapter(private val dataSet : List<MemoEntity>) : RecyclerView.Adapt
             memoDate.text = item.date
             memoTitle.text = item.title
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

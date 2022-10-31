@@ -54,6 +54,9 @@ dependencies {
     //Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
+    // Recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
     // ViewModelScope
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 
