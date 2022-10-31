@@ -2,6 +2,7 @@ package com.example.umc.ui
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,15 @@ import android.widget.DatePicker
 import androidx.navigation.Navigation
 import com.example.umc.R
 import com.example.umc.databinding.FragmentSaveBinding
+import com.example.umc.db.MemoEntity
+import com.example.umc.viewmodel.MemoViewModel
 import java.util.*
 
 class SaveFragment : Fragment() {
 
     private var _binding : FragmentSaveBinding? = null
     private val binding get() = _binding!!
+    private lateinit var memoViewModel: MemoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +32,15 @@ class SaveFragment : Fragment() {
         _binding = FragmentSaveBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //네비게이션 기능
+        memoViewModel = (activity as MainActivity).viewModel
+
+        /**
+         * 네비게이션 기능
+         * saveBtn 클릭시 DB에 저장하는 기능 추가
+         * */
         binding.saveBtn.setOnClickListener {
+            memoViewModel.saveMemo(MemoEntity(0,binding.title.text.toString(),
+                binding.notes.text.toString(),binding.date.text.toString()))
             Navigation.findNavController(view).navigate(R.id.action_saveFragment_to_mainFragment);
         }
 
@@ -37,7 +48,9 @@ class SaveFragment : Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_saveFragment_to_mainFragment);
         }
 
-        //달력 기능
+        /**
+         * 달력 기능
+         * */
         val dateSelectBtn = binding.date
 
         dateSelectBtn!!.setOnClickListener {
