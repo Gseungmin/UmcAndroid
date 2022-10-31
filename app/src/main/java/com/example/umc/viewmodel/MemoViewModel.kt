@@ -27,4 +27,7 @@ class MemoViewModel(
     fun getAllMemo() = viewModelScope.launch(Dispatchers.IO){
         _memoList.postValue(memoRepository.getAllMemo())
     }
+    fun getMemo(memoId: Int) = viewModelScope.launch(Dispatchers.IO){
+        memoRepository.getMemo(memoId)
+    }
 }

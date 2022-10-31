@@ -19,4 +19,7 @@ interface MemoDao {
 
     @Query("SELECT * FROM memo_table")
     fun getMemos(): List<MemoEntity>
+
+    @Query("SELECT * FROM memo_table WHERE id = :memoId")
+    fun getMemo(memoId: Int): MemoEntity
 }

@@ -28,4 +28,8 @@ class MemoRepositoryImpl(
     override fun getAllMemo(): List<MemoEntity> {
         return db.memoDao().getMemos()
     }
+
+    override fun getMemo(memoId: Int): MemoEntity {
+        return db.memoDao().getMemo(memoId);
+    }
 }
