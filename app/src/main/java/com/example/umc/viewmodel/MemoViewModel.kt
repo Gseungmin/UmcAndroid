@@ -13,6 +13,10 @@ class MemoViewModel(
     private val memoRepository: MemoRepository
 ) : ViewModel() {
 
+    private var _memoList = MutableLiveData<List<MemoEntity>>()
+    val memoList : LiveData<List<MemoEntity>>
+        get() = _memoList
+
     // CRUD를 수행하는 suspend 함수는 viewModelScope에서 실행하게 하여 viewModelScope의 기본 Dispatchers가 Main이므로 IO로 바꿔준다
     fun saveMemo(memo: MemoEntity) = viewModelScope.launch(Dispatchers.IO) {
         memoRepository.insertMemo(memo)
@@ -21,6 +25,6 @@ class MemoViewModel(
         memoRepository.deleteMemo(memo)
     }
     fun getAllMemo() = viewModelScope.launch(Dispatchers.IO){
-        memoRepository.getAllMemo();
+        _memoList.postValue(memoRepository.getAllMemo())
     }
 }
