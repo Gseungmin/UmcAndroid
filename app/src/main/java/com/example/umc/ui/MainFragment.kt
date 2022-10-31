@@ -37,13 +37,13 @@ class MainFragment : Fragment() {
 
         memoViewModel.getAllMemo()
 
-        //RecyclerView 기능
-//        memoViewModel.memoList.observe(viewLifecycleOwner) {
-//            memoRVAdapter = MemoRVAdapter(it)
-//            val memo_rv : RecyclerView = binding.rv
-//            memo_rv.adapter = memoRVAdapter
-//            memo_rv.layoutManager = LinearLayoutManager(requireContext())
-//        }
+//        RecyclerView 기능
+        memoViewModel.memoList.observe(viewLifecycleOwner) {
+            memoRVAdapter = MemoRVAdapter(it)
+            val memo_rv : RecyclerView = binding.rv
+            memo_rv.adapter = memoRVAdapter
+            memo_rv.layoutManager = LinearLayoutManager(requireContext())
+        }
 
         //네비게이션 기능
         binding.saveBtn.setOnClickListener {
