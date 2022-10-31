@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel 객체, Repository로 부터 데이터를 받아와서 처리, 따라서 Factory 필요
  * */
-class BookSearchViewModel(
+class MemoViewModel(
     private val memoRepository: MemoRepository
 ) : ViewModel() {
 
