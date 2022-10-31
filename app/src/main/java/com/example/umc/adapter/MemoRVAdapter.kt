@@ -4,14 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc.databinding.MemoRvItemBinding
+import com.example.umc.db.MemoEntity
 
-class MemoRVAdapter(private val dataSet : MutableList<MemoModel>) : RecyclerView.Adapter<MemoRVAdapter.ViewHolder>() {
+class MemoRVAdapter(private val dataSet : List<MemoEntity>) : RecyclerView.Adapter<MemoRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding : MemoRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindItems(item : MemoModel) {
-            val memo = binding.memoItem
-            memo.text = item.title
+        fun bindItems(item : MemoEntity) {
+            val memoDate = binding.memoDate
+            val memoTitle = binding.memoTitle
+            memoDate.text = item.date
+            memoTitle.text = item.title
         }
     }
 
