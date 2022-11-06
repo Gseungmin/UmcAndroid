@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/cardStackView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HOME" />
+        android:layout_height="match_parent">
+    </com.yuyakaido.android.cardstackview.CardStackView>
 
 </FrameLayout>
