@@ -12,8 +12,9 @@
         <ImageView
             android:id="@+id/ImageArea"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:src="@drawable/home"
+            android:layout_height="560dp"
+            android:src="@drawable/snow"
+            android:scaleType="fitXY"
             app:layout_constraintTop_toTopOf="parent"></ImageView>
 
         <TextView
@@ -23,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="이름"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/location"
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="위치"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/ImageArea"
@@ -44,7 +45,6 @@
 
 
         <LinearLayout
-            android:background="@color/main"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:orientation="horizontal"
