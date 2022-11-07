@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.umc.R
 import com.example.umc.databinding.FragmentHomeBinding
+import com.example.umc.model.Profile
 import com.example.umc.slider.CardStackAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -52,11 +53,12 @@ class HomeFragment : Fragment() {
             override fun onCardDisappeared(view: View?, position: Int) {
             }
         })
-        val textList = mutableListOf<String>()
-        textList.add("a")
-        textList.add("b")
-        textList.add("c")
-        cardStackAdapter = CardStackAdapter(requireContext(), textList)
+        val textList = mutableListOf<Profile>()
+        textList.add(Profile("자유롭지 못한 말", "제주 우도", "2"))
+        textList.add(Profile("비 온 뒤 노을", "울산", "3"))
+        textList.add(Profile("자유롭지 못한 말", "제주 우도", "2"))
+        textList.add(Profile("비 온 뒤 노을", "울산", "3"))
+        cardStackAdapter = CardStackAdapter(textList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
         return view

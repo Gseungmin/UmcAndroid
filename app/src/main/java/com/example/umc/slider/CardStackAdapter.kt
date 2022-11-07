@@ -1,25 +1,35 @@
 package com.example.umc.slider
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc.R
+import com.example.umc.databinding.ItemCardBinding
+import com.example.umc.model.Profile
 
-class CardStackAdapter(val context : Context, val items : List<String>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+class CardStackAdapter(private val items : List<Profile>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(private val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(data : String) {
-
+        fun binding(data : Profile) {
+            if (data.name.equals("1")) {
+                binding.ImageArea.setImageResource(R.drawable.snow)
+                binding.location.text = data.location
+                binding.name.text = data.title
+            } else if (data.name.equals("2")) {
+                binding.ImageArea.setImageResource(R.drawable.horse)
+                binding.location.text = data.location
+                binding.name.text = data.title
+            } else if (data.name.equals("3")) {
+                binding.ImageArea.setImageResource(R.drawable.sky)
+                binding.location.text = data.location
+                binding.name.text = data.title
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        val inflater = LayoutInflater.from(parent.context)
-        val view : View = inflater.inflate(R.layout.item_card, parent, false)
+        val view = ItemCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 
