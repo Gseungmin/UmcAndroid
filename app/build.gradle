@@ -36,6 +36,9 @@ android {
 
 dependencies {
 
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'me.relex:circleindicator:2.1.6'
+
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
     implementation 'androidx.core:core-ktx:1.7.0'
