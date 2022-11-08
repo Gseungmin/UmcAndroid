@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.umc.R
 import com.example.umc.databinding.FragmentHomeBinding
 import com.example.umc.model.Profile
@@ -61,6 +62,16 @@ class HomeFragment : Fragment() {
         cardStackAdapter = CardStackAdapter(textList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
+
+
+        //각 어댑터 클릭 리스너 설정
+        cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment("지승민", "26")
+                findNavController().navigate(action);
+            }
+        }
+
         return view
     }
 }

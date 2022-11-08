@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_orderFragment"
             app:destination="@id/fragment_order" />
+        <action
+            android:id="@+id/action_fragment_home_to_pictureFragment"
+            app:destination="@id/fragment_picture" />
     </fragment>
     <fragment
         android:id="@+id/fragment_order"
@@ -40,5 +43,20 @@
         <action
             android:id="@+id/action_userFragment_to_homeFragment"
             app:destination="@id/fragment_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_picture"
+        android:name="com.example.umc.ui.PictureFragment"
+        android:label="fragment_picture"
+        tools:layout="@layout/fragment_picture" >
+        <action
+            android:id="@+id/action_pictureFragment_to_fragment_home"
+            app:destination="@id/fragment_home" />
+        <argument android:name="name"
+            app:argType="string"
+            android:defaultValue="이름없음" />
+        <argument android:name="age"
+            app:argType="string"
+            android:defaultValue="0" />
     </fragment>
 </navigation>
