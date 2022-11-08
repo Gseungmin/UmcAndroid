@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.umc.R
 import com.example.umc.databinding.FragmentHomeBinding
 import com.example.umc.model.Profile
 import com.example.umc.slider.CardStackAdapter
@@ -56,9 +55,9 @@ class HomeFragment : Fragment() {
         })
         val textList = mutableListOf<Profile>()
         textList.add(Profile("자유롭지 못한 말", "제주 우도", "2"))
-        textList.add(Profile("비 온 뒤 노을", "울산", "3"))
+        textList.add(Profile("눈", "다산", "1"))
         textList.add(Profile("자유롭지 못한 말", "제주 우도", "2"))
-        textList.add(Profile("비 온 뒤 노을", "울산", "3"))
+        textList.add(Profile("눈", "다산", "1"))
         cardStackAdapter = CardStackAdapter(textList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
@@ -66,8 +65,8 @@ class HomeFragment : Fragment() {
 
         //각 어댑터 클릭 리스너 설정
         cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment("지승민", "26")
+            override fun onClick(view: View, each: Profile) {
+                val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment(each.title, each.location)
                 findNavController().navigate(action);
             }
         }

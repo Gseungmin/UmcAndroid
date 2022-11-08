@@ -3,14 +3,24 @@ package com.example.umc.slider
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.umc.R
 import com.example.umc.databinding.ItemPagerBinding
+import com.example.umc.model.Profile
 
-class PagerAdapter(private val items : List<String>) : RecyclerView.Adapter<PagerAdapter.ViewHolder>() {
+class PagerAdapter(private val items : List<Profile>) : RecyclerView.Adapter<PagerAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemPagerBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(data : String) {
-            binding.text.text = data
+        fun binding(data : Profile) {
+            if (data.name.equals("1")) {
+                binding.img.setImageResource(R.drawable.snow)
+            } else if (data.name.equals("2")) {
+                binding.img.setImageResource(R.drawable.snow2)
+            } else if (data.name.equals("3")) {
+                binding.img.setImageResource(R.drawable.horse)
+            } else if (data.name.equals("4")) {
+                binding.img.setImageResource(R.drawable.horse2)
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.umc.R
 import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.databinding.FragmentPictureBinding
+import com.example.umc.model.Profile
 import com.example.umc.slider.PagerAdapter
 
 class PictureFragment : Fragment() {
@@ -32,11 +33,15 @@ class PictureFragment : Fragment() {
 
         //viewPager 설정
         val viewpager = binding.viewpager
-        val list = mutableListOf<String>()
-        list.add(args.name)
-        list.add(args.age)
-        list.add(args.name)
-        list.add(args.age)
+        val list = mutableListOf<Profile>()
+
+        if (args.name.equals("눈")) {
+            list.add(Profile(args.name, args.age, "1"))
+            list.add(Profile(args.name, args.age, "2"))
+        } else {
+            list.add(Profile(args.name, args.age, "3"))
+            list.add(Profile(args.name, args.age, "4"))
+        }
         viewpager.adapter = PagerAdapter(list)
 
         //indicator 설정

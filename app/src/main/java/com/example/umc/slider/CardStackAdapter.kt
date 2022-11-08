@@ -1,5 +1,6 @@
 package com.example.umc.slider
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +41,7 @@ class CardStackAdapter(private val items : List<Profile>) : RecyclerView.Adapter
      * adapter를 생성한 fragment나 activity에서 override해서 다양한 기능을 사용할 수 있게 함
      * */
     interface ItemClick{ //인터페이스
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Profile)
     }
 
     var itemClick: ItemClick? = null
@@ -49,7 +50,8 @@ class CardStackAdapter(private val items : List<Profile>) : RecyclerView.Adapter
         holder.binding(items[position])
         if (itemClick != null){
             holder?.binding.ImageArea.setOnClickListener(View.OnClickListener {
-                itemClick?.onClick(it, position)
+                itemClick?.onClick(it, items[position])
+                Log.d("ITEMINFO", items[position].toString())
             })
         }
     }
