@@ -5,10 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.umc.R
-import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.databinding.FragmentPictureBinding
 import com.example.umc.model.Profile
 import com.example.umc.slider.PagerAdapter
@@ -51,6 +51,10 @@ class PictureFragment : Fragment() {
 
         //viewpager Setting
         viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        binding.back.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_pictureFragment_to_fragment_home)
+        }
 
         return view
     }

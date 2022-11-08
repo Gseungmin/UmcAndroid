@@ -30,13 +30,31 @@
             android:layout_gravity="bottom"/>
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/back"
-        android:src="@drawable/back"
-        android:padding="10dp"
+    <LinearLayout
         android:layout_weight="9"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ImageView>
+
+        <ImageView
+            android:layout_marginLeft="80dp"
+            android:layout_weight="1"
+            android:id="@+id/back"
+            android:src="@drawable/back"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ImageView>
+
+        <ImageView
+            android:layout_marginRight="80dp"
+            android:layout_weight="1"
+            android:id="@+id/dm"
+            android:padding="10dp"
+            android:src="@drawable/direct"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ImageView>
+
+    </LinearLayout>
 
 </LinearLayout>
