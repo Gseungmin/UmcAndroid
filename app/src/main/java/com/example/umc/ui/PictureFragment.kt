@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.umc.R
 import com.example.umc.databinding.FragmentPictureBinding
 import com.example.umc.model.Profile
+import com.example.umc.model.Faces
 import com.example.umc.slider.PagerAdapter
 
 class PictureFragment : Fragment() {
@@ -33,15 +34,26 @@ class PictureFragment : Fragment() {
 
         //viewPager 설정
         val viewpager = binding.viewpager
-        val list = mutableListOf<Profile>()
+        val list = mutableListOf<Faces>()
 
-        if (args.name.equals("눈")) {
-            list.add(Profile(args.name, args.age, "1"))
-            list.add(Profile(args.name, args.age, "2"))
-        } else {
-            list.add(Profile(args.name, args.age, "3"))
-            list.add(Profile(args.name, args.age, "4"))
+        if (args.id.equals("1")) {
+            list.add(Faces(args.id, "w1"))
+            list.add(Faces(args.id, "w12"))
+            list.add(Faces(args.id, "w13"))
+        } else if (args.id.equals("2")) {
+            list.add(Faces(args.id, "m1"))
+            list.add(Faces(args.id, "m12"))
+        } else if (args.id.equals("3")) {
+            list.add(Faces(args.id, "w2"))
+            list.add(Faces(args.id, "w22"))
+            list.add(Faces(args.id, "w23"))
+            list.add(Faces(args.id, "w24"))
+        } else if (args.id.equals("4")) {
+            list.add(Faces(args.id, "m2"))
+            list.add(Faces(args.id, "m22"))
+            list.add(Faces(args.id, "m23"))
         }
+
         viewpager.adapter = PagerAdapter(list)
 
         //indicator 설정

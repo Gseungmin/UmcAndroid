@@ -14,18 +14,26 @@ class CardStackAdapter(private val items : List<Profile>) : RecyclerView.Adapter
     inner class ViewHolder(val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data : Profile) {
-            if (data.name.equals("1")) {
-                binding.ImageArea.setImageResource(R.drawable.snow)
-                binding.location.text = data.location
-                binding.name.text = data.title
-            } else if (data.name.equals("2")) {
-                binding.ImageArea.setImageResource(R.drawable.horse)
-                binding.location.text = data.location
-                binding.name.text = data.title
-            } else if (data.name.equals("3")) {
-                binding.ImageArea.setImageResource(R.drawable.sky)
-                binding.location.text = data.location
-                binding.name.text = data.title
+            if (data.id.equals("1")) {
+                binding.ImageArea.setImageResource(R.drawable.w1)
+                binding.name.text = data.name
+                binding.age.text = data.age
+                binding.job.text = data.job
+            } else if (data.id.equals("2")) {
+                binding.ImageArea.setImageResource(R.drawable.m1)
+                binding.name.text = data.name
+                binding.age.text = data.age
+                binding.job.text = data.job
+            } else if (data.id.equals("3")) {
+                binding.ImageArea.setImageResource(R.drawable.w2)
+                binding.name.text = data.name
+                binding.age.text = data.age
+                binding.job.text = data.job
+            } else if (data.id.equals("4")) {
+                binding.ImageArea.setImageResource(R.drawable.m2)
+                binding.name.text = data.name
+                binding.age.text = data.age
+                binding.job.text = data.job
             }
         }
     }

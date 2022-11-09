@@ -1,7 +1,8 @@
 package com.example.umc.model
 
 data class Profile (
-        var title : String = "",
-        var location : String = "",
-        var name : String = ""
+        var id : String = "",
+        var name : String = "",
+        var age : String = "",
+        var job : String = "",
 )

@@ -58,5 +58,12 @@
         <argument android:name="age"
             app:argType="string"
             android:defaultValue="0" />
+        <argument
+            android:name="id"
+            app:argType="string"
+            android:defaultValue="0" />
+        <argument
+            android:name="job"
+            app:argType="string" />
     </fragment>
 </navigation>

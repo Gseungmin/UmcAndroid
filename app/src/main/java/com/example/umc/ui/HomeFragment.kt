@@ -54,10 +54,10 @@ class HomeFragment : Fragment() {
             }
         })
         val textList = mutableListOf<Profile>()
-        textList.add(Profile("자유롭지 못한 말", "제주 우도", "2"))
-        textList.add(Profile("눈", "다산", "1"))
-        textList.add(Profile("자유롭지 못한 말", "제주 우도", "2"))
-        textList.add(Profile("눈", "다산", "1"))
+        textList.add(Profile("1","수지", "26", "배우"))
+        textList.add(Profile("2","남주혁", "28", "대학생"))
+        textList.add(Profile("3","아이유", "24", "가수"))
+        textList.add(Profile("4","이광수", "31", "회사원"))
         cardStackAdapter = CardStackAdapter(textList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
@@ -66,7 +66,8 @@ class HomeFragment : Fragment() {
         //각 어댑터 클릭 리스너 설정
         cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
             override fun onClick(view: View, each: Profile) {
-                val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment(each.title, each.location)
+                val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment(
+                    each.job, each.name, each.age,  each.id)
                 findNavController().navigate(action);
             }
         }
