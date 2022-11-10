@@ -38,15 +38,24 @@ class HomeFragment : Fragment() {
 
         val textList = initProfileData()
 
+        /**
+         * CardStackView 연결
+         * */
         cardStackAdapter = CardStackAdapter(textList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
 
+        /**
+         * RecyclerView item 클릭 이벤트
+         * */
         setAdapterClickEvent()
 
         return view
     }
 
+    /**
+     * CardStackLayoutManager 사용을 위한 오버라이딩 메소드
+     * */
     private fun cardStackLayoutManager() =
         CardStackLayoutManager(requireContext(), object : CardStackListener {
             override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -71,6 +80,7 @@ class HomeFragment : Fragment() {
     /**
      * 각 어댑터 클릭 리스너 설정
      * RecyclerView Adapter 개별 item 클릭시 발생하는 이벤트 처리
+     * safe Args를 통해 해당 item 데이터를 같이 보내면 item에 해당하는 뷰를 보여줌
      * */
     private fun setAdapterClickEvent() {
         cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
@@ -82,6 +92,10 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * ROOM이나 RETROFIT 사용 전 초기 데이터 셋팅
+     * 추후에 삭제될 데이터
+     * */
     private fun initProfileData(): MutableList<Profile> {
         val textList = mutableListOf<Profile>()
         textList.add(Profile("1", "수지", "26", "배우"))

@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         navigation()
     }
 
+    /**
+     * Navigation 기능 + BottomNavigationView 기능 추가
+     * menu에 맞게 Fragment이동하는 기능
+     * */
     private fun navigation() {
         val host = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment? ?: return

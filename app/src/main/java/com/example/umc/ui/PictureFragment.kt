@@ -33,25 +33,30 @@ class PictureFragment : Fragment() {
         binding = FragmentPictureBinding.inflate(layoutInflater)
         val view = binding.root
 
-        //viewPager 설정
+        /**
+         * viewPager 연결
+         */
         val viewpager = binding.viewpager
         val list = initFaceData()
-
         viewpager.adapter = PagerAdapter(list)
+        viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        //indicator 설정
+        /**
+         * indicator 연결
+         */
         val indicator = binding.indicator
         indicator.setViewPager(viewpager)
         indicator.createIndicators(list.size, 0)
-
-        //viewpager Setting
-        viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         navigation(view)
 
         return view
     }
 
+    /**
+     * Navigation 기능
+     * back 버튼 클릭시 HomeFragment로 이동
+     * */
     private fun navigation(view: LinearLayout) {
         binding.back.setOnClickListener {
             Navigation.findNavController(view)
@@ -59,6 +64,10 @@ class PictureFragment : Fragment() {
         }
     }
 
+    /**
+     * ROOM이나 RETROFIT 사용 전 초기 데이터 셋팅
+     * 추후에 삭제될 데이터
+     * */
     private fun initFaceData(): MutableList<Faces> {
         val list = mutableListOf<Faces>()
 
