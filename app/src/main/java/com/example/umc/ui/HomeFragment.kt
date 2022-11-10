@@ -34,7 +34,21 @@ class HomeFragment : Fragment() {
         val view = binding.root
 
         val cardStackView = binding.cardStackView
-        manager = CardStackLayoutManager(requireContext(), object : CardStackListener{
+        manager = cardStackLayoutManager()
+
+        val textList = initProfileData()
+
+        cardStackAdapter = CardStackAdapter(textList)
+        cardStackView.layoutManager = manager
+        cardStackView.adapter = cardStackAdapter
+
+        setAdapterClickEvent()
+
+        return view
+    }
+
+    private fun cardStackLayoutManager() =
+        CardStackLayoutManager(requireContext(), object : CardStackListener {
             override fun onCardDragging(direction: Direction?, ratio: Float) {
             }
 
@@ -53,25 +67,27 @@ class HomeFragment : Fragment() {
             override fun onCardDisappeared(view: View?, position: Int) {
             }
         })
-        val textList = mutableListOf<Profile>()
-        textList.add(Profile("1","수지", "26", "배우"))
-        textList.add(Profile("2","남주혁", "28", "대학생"))
-        textList.add(Profile("3","아이유", "24", "가수"))
-        textList.add(Profile("4","이광수", "31", "회사원"))
-        cardStackAdapter = CardStackAdapter(textList)
-        cardStackView.layoutManager = manager
-        cardStackView.adapter = cardStackAdapter
 
-
-        //각 어댑터 클릭 리스너 설정
+    /**
+     * 각 어댑터 클릭 리스너 설정
+     * RecyclerView Adapter 개별 item 클릭시 발생하는 이벤트 처리
+     * */
+    private fun setAdapterClickEvent() {
         cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
             override fun onClick(view: View, each: Profile) {
                 val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment(
-                    each.job, each.name, each.age,  each.id)
+                    each.job, each.name, each.age, each.id)
                 findNavController().navigate(action);
             }
         }
+    }
 
-        return view
+    private fun initProfileData(): MutableList<Profile> {
+        val textList = mutableListOf<Profile>()
+        textList.add(Profile("1", "수지", "26", "배우"))
+        textList.add(Profile("2", "남주혁", "28", "대학생"))
+        textList.add(Profile("3", "아이유", "24", "가수"))
+        textList.add(Profile("4", "이광수", "31", "회사원"))
+        return textList
     }
 }

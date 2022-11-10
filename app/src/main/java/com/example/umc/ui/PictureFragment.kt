@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -34,6 +35,31 @@ class PictureFragment : Fragment() {
 
         //viewPager 설정
         val viewpager = binding.viewpager
+        val list = initFaceData()
+
+        viewpager.adapter = PagerAdapter(list)
+
+        //indicator 설정
+        val indicator = binding.indicator
+        indicator.setViewPager(viewpager)
+        indicator.createIndicators(list.size, 0)
+
+        //viewpager Setting
+        viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        navigation(view)
+
+        return view
+    }
+
+    private fun navigation(view: LinearLayout) {
+        binding.back.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_pictureFragment_to_fragment_home)
+        }
+    }
+
+    private fun initFaceData(): MutableList<Faces> {
         val list = mutableListOf<Faces>()
 
         if (args.id.equals("1")) {
@@ -53,21 +79,6 @@ class PictureFragment : Fragment() {
             list.add(Faces(args.id, "m22"))
             list.add(Faces(args.id, "m23"))
         }
-
-        viewpager.adapter = PagerAdapter(list)
-
-        //indicator 설정
-        val indicator = binding.indicator
-        indicator.setViewPager(viewpager)
-        indicator.createIndicators(list.size, 0)
-
-        //viewpager Setting
-        viewpager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-        binding.back.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_pictureFragment_to_fragment_home)
-        }
-
-        return view
+        return list
     }
 }
