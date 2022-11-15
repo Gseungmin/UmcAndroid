@@ -21,19 +21,25 @@ class LoadingViewModel : ViewModel() {
         viewModelScope.launch {
             for(i in 0..99) {
                 if (i < 5) {
-                    delay(160)
-                } else if (i < 12) {
                     delay(120)
+                } else if (i < 12) {
+                    delay(100)
                 } else if (i < 20) {
-                    delay(50)
+                    delay(30)
                 } else if (i < 78) {
-                    delay(10)
+                    delay(8)
                 } else if (i < 100) {
                     delay(2)
                 }
                 plus()
             }
             _countValue.value = "로딩 중"
+            delay(30)
+            _countValue.value = "로딩 중."
+            delay(30)
+            _countValue.value = "로딩 중.."
+            delay(30)
+            _countValue.value = "로딩 중..."
         }
     }
 }

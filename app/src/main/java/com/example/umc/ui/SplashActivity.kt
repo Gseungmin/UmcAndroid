@@ -26,11 +26,11 @@ class SplashActivity : AppCompatActivity() {
 
         viewModel.countValue.observe(this, Observer {
             binding.num.text = it.toString()
-            if (it.equals("로딩 중")) {
+            if (it.equals("로딩 중...")) {
                 Handler().postDelayed({
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
-                },1000)
+                },10)
             }
         })
         viewModel.exec()
