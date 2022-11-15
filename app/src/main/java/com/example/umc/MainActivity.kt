@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.View
 import com.example.umc.databinding.ActivityMainBinding
 import android.widget.Toast
-import java.util.*
-import kotlin.concurrent.timer
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.umc.viewmodel.TimerViewModel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
-
-    var isRunning = false
-    var timer: Timer? = null
-    var time = 30
+    private lateinit var viewModel: TimerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,57 +21,59 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val view = binding.root
         setContentView(view)
 
+        //viewModel 초기화
+        viewModel = ViewModelProvider(this).get(TimerViewModel::class.java)
+
+        //isRunning livedata observe
+        viewModel.isRunning.observe(this, Observer {
+            if (!it) {
+                if (viewModel.time.value == 0) {
+                    pause()
+                } else {
+                    start()
+                }
+            } else {
+                if (viewModel.time.value == 0) {
+                    pause()
+                } else {
+                    stop()
+                }
+            }
+        })
+
+        //time livedata observe
+        viewModel.time.observe(this, Observer {
+            binding.tvSecond.text = it.toString()
+        })
+
         binding.btnStart.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_start -> {
-                if (isRunning) {
-                    pause()
+                if (viewModel.isRunning.value!!.equals(true)) {
+                    viewModel.stopTimer()
                 } else {
-                    start()
+                    viewModel.startTimer()
                 }
             }
         }
     }
 
     private fun start() {
-        binding.btnStart.text = "일시정지"
-
-        binding.btnStart.setBackgroundColor(getColor(R.color.red))
-        isRunning = true
-
-        timer = timer(period = 1) {
-            time--
-
-            val milli_second = -(time % 100)
-            val second = 30 + (time % 6000) / 100
-
-            runOnUiThread {
-                if (isRunning) {
-                    binding.tvMillisecond.text = ".${milli_second}"
-                    binding.tvSecond.text = "${second}"
-                    if (milli_second == 0 && second == 0) {
-                        stop()
-                    }
-                }
-            };
-        }
+        binding.btnStart.text = "시작"
+        binding.btnStart.setBackgroundColor(getColor(R.color.blue))
     }
 
-    private fun stop() {
-        binding.btnStart.text = "종료"
-        binding.btnStart.setBackgroundColor(getColor(R.color.black))
-        isRunning = false
-        Toast.makeText(this, "종료되었습니다", Toast.LENGTH_SHORT).show()
+    private fun stop(){
+        binding.btnStart.text = "일시정지"
+        binding.btnStart.setBackgroundColor(getColor(R.color.red))
     }
 
     private fun pause() {
-        binding.btnStart.text = "시작"
-        binding.btnStart.setBackgroundColor(getColor(R.color.blue))
-
-        isRunning = false
-        timer?.cancel()
+        binding.btnStart.text = "종료"
+        binding.btnStart.setBackgroundColor(getColor(R.color.black))
+        Toast.makeText(this, "종료되었습니다", Toast.LENGTH_SHORT).show()
     }
 }
