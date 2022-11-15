@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">UMC</string>
+    <string name="start">시작</string>
+    <string name="pause">일시정지</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
