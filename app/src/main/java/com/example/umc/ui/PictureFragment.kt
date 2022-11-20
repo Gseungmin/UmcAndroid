@@ -11,9 +11,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.umc.R
 import com.example.umc.databinding.FragmentPictureBinding
-import com.example.umc.model.Profile
 import com.example.umc.model.Faces
-import com.example.umc.slider.PagerAdapter
+import com.example.umc.adapter.PagerAdapter
 
 class PictureFragment : Fragment() {
 

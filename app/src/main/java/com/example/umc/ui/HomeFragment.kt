@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.umc.databinding.FragmentHomeBinding
 import com.example.umc.model.Profile
-import com.example.umc.slider.CardStackAdapter
+import com.example.umc.adapter.CardStackAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction

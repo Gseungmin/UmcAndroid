@@ -7,8 +7,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.umc.R
 import com.example.umc.databinding.ActivityMainBinding
-import com.example.umc.slider.CardStackAdapter
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 
 class MainActivity : AppCompatActivity() {
 

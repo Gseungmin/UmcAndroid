@@ -1,6 +1,7 @@
-package com.example.umc.slider
+package com.example.umc.adapter
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +17,6 @@ class MyListAdapter:
         fun bind(uri: Uri) {
             binding.imageView.load(uri)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -1,4 +1,4 @@
-package com.example.umc.slider
+package com.example.umc.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
