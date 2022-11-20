@@ -4,24 +4,26 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.umc.R
 import com.example.umc.adapter.ImageUploadAdapter
-import com.example.umc.adapter.MyListAdapter
-import com.example.umc.databinding.ActivityRegisterBinding
 import com.example.umc.databinding.ActivityUploadBinding
-import com.example.umc.databinding.FragmentPictureBinding
-import com.theartofdev.edmodo.cropper.CropImage
-import com.theartofdev.edmodo.cropper.CropImageView
+import com.example.umc.db.DataBase
+import com.example.umc.repository.DataRepository
+import com.example.umc.viewmodel.ImageViewModel
+import com.example.umc.viewmodel.ImageViewModelFactory
+import java.io.ByteArrayOutputStream
 
 class UploadActivity : AppCompatActivity() {
 
@@ -29,12 +31,19 @@ class UploadActivity : AppCompatActivity() {
     private val PICK_IMAGE_FROM_GALLERY = 1000
     private val PICK_IMAGE_FROM_GALLERY_PERMISSION = 1010
     private lateinit var imageRVAdapter : ImageUploadAdapter
+    private var datas = mutableListOf<Uri>()
+    lateinit var viewModel: ImageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val database = DataBase.getDatabase(this)
+        val dataRepository = DataRepository(database)
+        val factory = ImageViewModelFactory(dataRepository)
+        viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
 
         // 사진첨부 버튼 클릭 이벤트 구현
         binding.btnShowGallery.setOnClickListener {
@@ -51,6 +60,18 @@ class UploadActivity : AppCompatActivity() {
                 // 권한 요청 하기
                 else -> requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                     PICK_IMAGE_FROM_GALLERY_PERMISSION)
+            }
+        }
+
+        //사진 저장 이벤트 구현
+        binding.btnSave.setOnClickListener {
+            for (item in datas) {
+                Log.d("BITMAP1", item.toString())
+                val imageBitmap = setImageBitmap(item)
+                viewModel.insertData(imageBitmap, "오사카의 밤", "도본토리")
+                viewModel.getData()
+//                val imageUri = getImageUri(imageBitmap)
+//                Log.d("BITMAP4", imageUri.toString())
             }
         }
     }
@@ -97,7 +118,8 @@ class UploadActivity : AppCompatActivity() {
                     list.add(imageUri)
                 }
             }
-            imageRVAdapter = ImageUploadAdapter(list)
+            datas = list
+            imageRVAdapter = ImageUploadAdapter(datas)
             binding.recyclerView.adapter = imageRVAdapter
             binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
@@ -120,5 +142,25 @@ class UploadActivity : AppCompatActivity() {
                     Toast.makeText(this, "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setImageBitmap(uri: Uri) : Bitmap{
+        val bitmap = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            ImageDecoder.decodeBitmap(
+                ImageDecoder.createSource(contentResolver, uri)
+            )
+        }else{
+            MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        }
+        Log.d("BITMAP2", bitmap.toString())
+        return bitmap
+    }
+
+    private fun getImageUri(bitmap: Bitmap) : Uri {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
+        Log.d("BITMAP3", Uri.parse(path).toString())
+        return Uri.parse(path)
     }
 }
