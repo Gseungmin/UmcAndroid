@@ -5,36 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.umc.R
 import com.example.umc.databinding.ItemCardBinding
+import com.example.umc.db.DataEntity
+import com.example.umc.model.Image
 import com.example.umc.model.Profile
 
-class CardStackAdapter(private val items : List<Profile>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+class CardStackAdapter(private val items : List<Image>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemCardBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(data : Profile) {
-            if (data.id.equals("1")) {
-                binding.ImageArea.setImageResource(R.drawable.w1)
-                binding.name.text = data.name
-                binding.age.text = data.age
-                binding.job.text = data.job
-            } else if (data.id.equals("2")) {
-                binding.ImageArea.setImageResource(R.drawable.m1)
-                binding.name.text = data.name
-                binding.age.text = data.age
-                binding.job.text = data.job
-            } else if (data.id.equals("3")) {
-                binding.ImageArea.setImageResource(R.drawable.w2)
-                binding.name.text = data.name
-                binding.age.text = data.age
-                binding.job.text = data.job
-            } else if (data.id.equals("4")) {
-                binding.ImageArea.setImageResource(R.drawable.m2)
-                binding.name.text = data.name
-                binding.age.text = data.age
-                binding.job.text = data.job
-            }
+        fun binding(data : Image) {
+            binding.ImageArea.load(data.uri)
+            binding.name.text = data.title
+            binding.job.text = data.location
         }
     }
 
@@ -49,7 +34,7 @@ class CardStackAdapter(private val items : List<Profile>) : RecyclerView.Adapter
      * adapter를 생성한 fragment나 activity에서 override해서 다양한 기능을 사용할 수 있게 함
      * */
     interface ItemClick{ //인터페이스
-        fun onClick(view: View, position: Profile)
+        fun onClick(view: View, position: Image)
     }
 
     var itemClick: ItemClick? = null

@@ -2,16 +2,23 @@ package com.example.umc.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.umc.R
 import com.example.umc.databinding.ActivityMainBinding
+import com.example.umc.db.DataBase
+import com.example.umc.repository.DataRepository
+import com.example.umc.viewmodel.ImageViewModel
+import com.example.umc.viewmodel.ImageViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    lateinit var viewModel: ImageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val database = DataBase.getDatabase(this)
+        val dataRepository = DataRepository(database)
+        val factory = ImageViewModelFactory(dataRepository)
+        viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
 
         navigation()
     }

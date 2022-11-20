@@ -1,23 +1,31 @@
 package com.example.umc.ui
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.umc.databinding.FragmentHomeBinding
-import com.example.umc.model.Profile
 import com.example.umc.adapter.CardStackAdapter
+import com.example.umc.databinding.FragmentHomeBinding
+import com.example.umc.model.Image
+import com.example.umc.model.Profile
+import com.example.umc.viewmodel.ImageViewModel
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     lateinit var cardStackAdapter: CardStackAdapter
     lateinit var manager : CardStackLayoutManager
+    lateinit var viewModel: ImageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +44,29 @@ class HomeFragment : Fragment() {
         val cardStackView = binding.cardStackView
         manager = cardStackLayoutManager()
 
-        val textList = initProfileData()
+        viewModel = (activity as MainActivity).viewModel
 
-        /**
-         * CardStackView 연결
-         * */
+        viewModel.getData()
+
+        viewModel.imageList.observe(viewLifecycleOwner) {
+
+            val imageList = mutableListOf<Image>()
+
+            /**
+             * CardStackView 연결
+             * */
+            for (each in it) {
+                val imageUri = getImageUri(each.image)
+                val init = init(each.title, each.location, imageUri)
+                imageList.add(init)
+            }
+
+            cardStackAdapter = CardStackAdapter(imageList)
+            cardStackView.layoutManager = manager
+            cardStackView.adapter = cardStackAdapter
+        }
+
+        val textList = mutableListOf<Image>()
         cardStackAdapter = CardStackAdapter(textList)
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
@@ -51,6 +77,11 @@ class HomeFragment : Fragment() {
         setAdapterClickEvent()
 
         return view
+    }
+
+    private fun init(title: String, location: String, imageUri: Uri): Image {
+        val image = Image(title, location, imageUri)
+        return image
     }
 
     /**
@@ -84,24 +115,21 @@ class HomeFragment : Fragment() {
      * */
     private fun setAdapterClickEvent() {
         cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
-            override fun onClick(view: View, each: Profile) {
+            override fun onClick(view: View, each: Image) {
                 val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment(
-                    each.job, each.name, each.age, each.id)
+                    each.title, each.location)
                 findNavController().navigate(action);
             }
         }
     }
 
-    /**
-     * ROOM이나 RETROFIT 사용 전 초기 데이터 셋팅
-     * 추후에 삭제될 데이터
-     * */
-    private fun initProfileData(): MutableList<Profile> {
-        val textList = mutableListOf<Profile>()
-        textList.add(Profile("1", "수지", "26", "배우"))
-        textList.add(Profile("2", "남주혁", "28", "대학생"))
-        textList.add(Profile("3", "아이유", "24", "가수"))
-        textList.add(Profile("4", "이광수", "31", "회사원"))
-        return textList
+    private fun getImageUri(bitmap: Bitmap) : Uri {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+
+        val rand = Random()
+        val randNo: Int = rand.nextInt(1000)
+        val path = MediaStore.Images.Media.insertImage(requireActivity().contentResolver, bitmap, "IMG_$randNo", null)
+        return Uri.parse(path)
     }
 }
