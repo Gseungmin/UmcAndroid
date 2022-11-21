@@ -135,7 +135,6 @@ class UploadActivity : AppCompatActivity() {
 
         when (requestCode) {
             PICK_IMAGE_FROM_GALLERY_PERMISSION -> {
-
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     showGallery(this@UploadActivity)
                 else
@@ -154,13 +153,5 @@ class UploadActivity : AppCompatActivity() {
         }
         Log.d("BITMAP2", bitmap.toString())
         return bitmap
-    }
-
-    private fun getImageUri(bitmap: Bitmap) : Uri {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        val path = MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Title", null)
-        Log.d("BITMAP3", Uri.parse(path).toString())
-        return Uri.parse(path)
     }
 }
