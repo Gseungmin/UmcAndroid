@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.umc.adapter.CardStackAdapter
 import com.example.umc.databinding.FragmentHomeBinding
 import com.example.umc.model.Image
-import com.example.umc.model.Profile
 import com.example.umc.viewmodel.ImageViewModel
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener

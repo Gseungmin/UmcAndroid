@@ -10,7 +10,6 @@ import com.example.umc.R
 import com.example.umc.databinding.ItemCardBinding
 import com.example.umc.db.DataEntity
 import com.example.umc.model.Image
-import com.example.umc.model.Profile
 
 class CardStackAdapter(private val items : List<Image>) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
