@@ -5,8 +5,8 @@ UMC 3기 Android 코드 리뷰를 위한 공간
 
 ## 7주차 Review
 * [ViewModel 및 ViewModelScope 정리](https://six-mass-051.notion.site/7-ViewModel-ViewModelScope-fa327962acb74afab17ab5211a32d287)
-* [Jay: ViewModel 및 ViewModelScope 적용 코드 정리](https://six-mass-051.notion.site/c88e53337d8642888fe89d14e53b49b5)
-* [Aran: ViewModelFactory 패턴 및 ViewModelScope 적용 코드 정리](https://six-mass-051.notion.site/ff3620232dad434ba64f8f7c6c88fd3b)
+* [Jay: ViewModel 및 ViewModelScope 적용 코드 정리](https://six-mass-051.notion.site/c88e53337d8642888fe89d14e53b49b5) : 7th-Jay(Branch)
+* [Aran: ViewModelFactory 패턴 및 ViewModelScope 적용 코드 정리](https://six-mass-051.notion.site/ff3620232dad434ba64f8f7c6c88fd3b) : 7th-aran(Branch)
 
 ## 8주차 Review
 * [CardStackView 기능]()
