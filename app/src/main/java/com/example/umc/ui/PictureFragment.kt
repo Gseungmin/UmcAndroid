@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.umc.R
 import com.example.umc.databinding.FragmentPictureBinding
 import com.example.umc.adapter.PagerAdapter
+import com.example.umc.model.Faces
 
 class PictureFragment : Fragment() {
 

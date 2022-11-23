@@ -15,6 +15,7 @@ import com.example.umc.model.Image
 import com.example.umc.viewmodel.ImageViewModel
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
+import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -40,47 +41,57 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         val view = binding.root
 
-        val cardStackView = binding.cardStackView
-        manager = cardStackLayoutManager()
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
 
+        //초기화
         viewModel.getData()
+
+        val cardStackView = binding.cardStackView
+        manager = cardStackLayoutManager()
 
         viewModel.imageList.observe(viewLifecycleOwner) {
 
             val imageList = mutableListOf<Image>()
 
-            /**
-             * CardStackView 연결
-             * */
             for (each in it) {
                 val imageUri = getImageUri(each.image)
-                val init = init(each.title, each.location, imageUri)
-                imageList.add(init)
+                val image = makeImage(each.title, each.location, imageUri)
+                imageList.add(image)
             }
 
-            cardStackAdapter = CardStackAdapter(imageList)
-            cardStackView.layoutManager = manager
-            cardStackView.adapter = cardStackAdapter
+            connectCardStackView(imageList, cardStackView)
         }
 
         val textList = mutableListOf<Image>()
-        cardStackAdapter = CardStackAdapter(textList)
-        cardStackView.layoutManager = manager
-        cardStackView.adapter = cardStackAdapter
+        connectCardStackView(textList, cardStackView)
 
         /**
          * RecyclerView item 클릭 이벤트
          * */
         setAdapterClickEvent()
-
-        return view
     }
 
-    private fun init(title: String, location: String, imageUri: Uri): Image {
-        val image = Image(title, location, imageUri)
-        return image
+    /**
+     * CardStackView 연결
+     */
+    private fun connectCardStackView(
+        imageList: MutableList<Image>,
+        cardStackView: CardStackView,
+    ) {
+        cardStackAdapter = CardStackAdapter(imageList)
+        cardStackView.layoutManager = manager
+        cardStackView.adapter = cardStackAdapter
+    }
+
+
+    private fun makeImage(title: String, location: String, imageUri: Uri): Image {
+        return Image(title, location, imageUri)
     }
 
     /**
@@ -122,6 +133,9 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Transform From bitmap to Uri
+     * */
     private fun getImageUri(bitmap: Bitmap) : Uri {
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
