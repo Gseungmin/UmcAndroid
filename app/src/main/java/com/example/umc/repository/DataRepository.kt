@@ -1,6 +1,5 @@
 package com.example.umc.repository
 
-import android.graphics.Bitmap
 import com.example.umc.db.DataBase
 import com.example.umc.db.DataEntity
 
@@ -10,4 +9,7 @@ class DataRepository(private val db: DataBase) {
 
     fun insertData(dataEntity: DataEntity) =
         db.dataDao().insert(dataEntity)
+
+    fun deleteAll() =
+        db.dataDao().deleteAllPictures()
 }

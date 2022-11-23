@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.umc.databinding.FragmentOrderBinding
+import com.example.umc.viewmodel.ImageViewModel
 
 class OrderFragment : Fragment() {
 
     private lateinit var binding: FragmentOrderBinding
+    lateinit var viewModel: ImageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +28,11 @@ class OrderFragment : Fragment() {
         binding = FragmentOrderBinding.inflate(layoutInflater)
         val view = binding.root
 
-//        binding.register.setOnClickListener {
-//            val intent = Intent(activity, RegisterActivity::class.java)
-//            startActivity(intent)
-//        }
+        viewModel = (activity as MainActivity).viewModel
+
+        binding.delete.setOnClickListener {
+            viewModel.deleteData()
+        }
 
         binding.upload.setOnClickListener {
             val intent = Intent(activity, UploadActivity::class.java)

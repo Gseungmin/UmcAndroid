@@ -1,9 +1,6 @@
 package com.example.umc.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface DataDao {
@@ -13,4 +10,7 @@ interface DataDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(data : DataEntity)
+
+    @Query("DELETE FROM data_table")
+    fun deleteAllPictures()
 }

@@ -27,4 +27,9 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
             repository.insertData(dataEntity)
             Log.d("OUTPUTPOST", dataEntity.toString())
     }
+
+    fun deleteData() =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAll()
+        }
 }
