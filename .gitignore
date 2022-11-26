@@ -16,4 +16,4 @@ local.properties
 
 app/src/main/AndroidManifest
 
-app/src/main/java/com/example/umc/Constants
+app/src/main/java/com/example/umc/Constants.kt
