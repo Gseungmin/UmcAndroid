@@ -22,8 +22,8 @@ class SplashActivity : AppCompatActivity() {
         Handler(Looper.myLooper()!!).postDelayed({
             binding.progressBar.isVisible = false
             binding.textViewIsLoading.isVisible = false
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
-        }, 3000)
+        }, 2000)
     }
 }

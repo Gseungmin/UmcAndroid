@@ -15,7 +15,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.umc.adapter.ImageUploadAdapter
 import com.example.umc.databinding.ActivityUploadBinding
@@ -23,7 +22,6 @@ import com.example.umc.db.DataBase
 import com.example.umc.repository.DataRepository
 import com.example.umc.viewmodel.ImageViewModel
 import com.example.umc.viewmodel.ImageViewModelFactory
-import java.io.ByteArrayOutputStream
 
 class UploadActivity : AppCompatActivity() {
 
@@ -70,9 +68,13 @@ class UploadActivity : AppCompatActivity() {
                 val imageBitmap = setImageBitmap(item)
                 viewModel.insertData(imageBitmap, "오사카의 밤", "도본토리")
                 viewModel.getData()
-//                val imageUri = getImageUri(imageBitmap)
-//                Log.d("BITMAP4", imageUri.toString())
             }
+        }
+
+        viewModel.datas.observe(this) {
+            imageRVAdapter = ImageUploadAdapter(viewModel.datas.value!!)
+            binding.recyclerView.adapter = imageRVAdapter
+            binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
@@ -118,10 +120,7 @@ class UploadActivity : AppCompatActivity() {
                     list.add(imageUri)
                 }
             }
-            datas = list
-            imageRVAdapter = ImageUploadAdapter(datas)
-            binding.recyclerView.adapter = imageRVAdapter
-            binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            viewModel.setImage(list)
         }
     }
 

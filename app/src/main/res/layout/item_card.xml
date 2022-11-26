@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/ImageArea"
             android:layout_width="match_parent"
-            android:layout_height="560dp"
+            android:layout_height="match_parent"
             android:src="@drawable/w2"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"></ImageView>
@@ -56,37 +56,16 @@
             app:layout_constraintStart_toStartOf="parent"></TextView>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:orientation="horizontal"
-            android:padding="26dp"
-            android:weightSum="2"
+        <ImageView
+            android:id="@+id/direction"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/location_pin"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ImageArea">
+            app:layout_constraintEnd_toEndOf="parent"></ImageView>
 
-            <ImageView
-                android:id="@+id/disLike"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-                android:layout_weight="1"
-                android:background="@drawable/radius"
-                android:padding="16dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/dislike"></ImageView>
-
-            <ImageView
-                android:id="@+id/like"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="80dp"
-                android:layout_weight="1"
-                android:background="@drawable/radius"
-                android:padding="16dp"
-                android:src="@drawable/like"></ImageView>
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

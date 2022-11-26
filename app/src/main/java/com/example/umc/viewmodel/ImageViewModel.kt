@@ -1,7 +1,7 @@
 package com.example.umc.viewmodel
 
 import android.graphics.Bitmap
-import android.util.Log
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,4 +31,12 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
         }
+
+    private var _datas = MutableLiveData<List<Uri>>()
+    val datas : LiveData<List<Uri>>
+        get() = _datas
+
+    fun setImage(images: List<Uri>) {
+        _datas.value = images
+    }
 }
