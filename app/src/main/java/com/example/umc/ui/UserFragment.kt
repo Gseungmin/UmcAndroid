@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import com.example.umc.Constants.PLACE_API_KEY
 import com.example.umc.databinding.FragmentUserBinding
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -246,7 +247,7 @@ class UserFragment : Fragment(), OnMapReadyCallback {
                     "?location=${myLocation?.latitude},${myLocation?.longitude}" +
                     "&radius=1000" +
                     "&type=${type}" +
-                    "&key=AIzaSyALRGYsc5pBa5ngpZgrkE5fErT24cunGbs" +
+                    "&key=${PLACE_API_KEY}" +
                     "&language=ko"
 
             Log.d("NEARBY",site)
