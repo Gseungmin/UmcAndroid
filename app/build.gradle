@@ -61,9 +61,6 @@ dependencies {
     //coil
     implementation("io.coil-kt:coil:2.2.2")
 
-    //crop
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
-
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
 
