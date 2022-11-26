@@ -19,9 +19,11 @@ import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.databinding.FragmentUserBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 
-class UserFragment : Fragment() {
+class UserFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentUserBinding
 
@@ -55,6 +57,14 @@ class UserFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentUserBinding.inflate(layoutInflater)
         val view = binding.root
+
+        //권한 요청
+        requestPermissions(permission_list, 0)
+
+        //맵의 상태가 변경되면 호출될 메소드가 구현되어 있는 곳 등록
+        val mapFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment?
+
+        mapFragment?.getMapAsync(this) //비동기적으로 구글 맵 실행
         return view
     }
 
@@ -113,5 +123,12 @@ class UserFragment : Fragment() {
             manager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
         }
+    }
+
+    //현재 위치 조회 메소드
+    //지도가 준비 완료되면 호출되는 메소드, p0가 구글 지도 객체
+    override fun onMapReady(p0: GoogleMap) {
+        googleMap = p0
+        getMyLocation()
     }
 }
