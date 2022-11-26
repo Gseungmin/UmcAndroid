@@ -9,16 +9,11 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.example.umc.R
-import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.databinding.FragmentUserBinding
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -118,34 +113,34 @@ class UserFragment : Fragment(), OnMapReadyCallback {
             placeListBuilder.setTitle("장소 종류 선택")
             placeListBuilder.setNegativeButton("취소", null)
             placeListBuilder.setNeutralButton("초기화") { dialogInterface, i ->
-//                //마커 제거
-//                for (m in nearby_marker) {
-//                    m.remove()
-//                }
-//
-//                //리스트 초기화
-//                nearby_lat.clear()
-//                nearby_name.clear()
-//                nearby_vicinity.clear()
-//                nearby_log.clear()
-//                nearby_marker.clear()
+                //마커 제거
+                for (m in nearby_marker) {
+                    m.remove()
+                }
+
+                //리스트 초기화
+                nearby_lat.clear()
+                nearby_name.clear()
+                nearby_vicinity.clear()
+                nearby_log.clear()
+                nearby_marker.clear()
             }
             placeListBuilder.setItems(dialogData) {
                     dialogInterface, i ->
-//
-//                //마커 제거
-//                for (m in nearby_marker) {
-//                    m.remove()
-//                }
-//
-//                //리스트 초기화
-//                nearby_lat.clear()
-//                nearby_name.clear()
-//                nearby_vicinity.clear()
-//                nearby_log.clear()
-//                nearby_marker.clear()
-//
-//                getNearbyPlaceData(dialogData[i])
+
+                //마커 제거
+                for (m in nearby_marker) {
+                    m.remove()
+                }
+
+                //리스트 초기화
+                nearby_lat.clear()
+                nearby_name.clear()
+                nearby_vicinity.clear()
+                nearby_log.clear()
+                nearby_marker.clear()
+
+                getNearbyPlaceData(dialogData[i])
             }
 
             placeListBuilder.show()
@@ -164,6 +159,9 @@ class UserFragment : Fragment(), OnMapReadyCallback {
         val loc1 = LatLng(location.latitude, location.longitude)
         //지도를 이동시키기 위한 객체 생성
         val loc2 = CameraUpdateFactory.newLatLngZoom(loc1, 15f)
+
+        myLocation = location
+        Log.d("NEARBY", myLocation.toString())
 
         Log.d("MAP2", location.toString())
 
@@ -251,6 +249,8 @@ class UserFragment : Fragment(), OnMapReadyCallback {
                     "&key=AIzaSyALRGYsc5pBa5ngpZgrkE5fErT24cunGbs" +
                     "&language=ko"
 
+            Log.d("NEARBY",site)
+
             val url = URL(site)
             val conn = url.openConnection() as HttpURLConnection
 
@@ -270,6 +270,8 @@ class UserFragment : Fragment(), OnMapReadyCallback {
 
             val data = buf.toString()
 
+            Log.d("NEARBY",data)
+
             //JSON 객체 생성
             val root = JSONObject(data)
 
@@ -285,6 +287,11 @@ class UserFragment : Fragment(), OnMapReadyCallback {
                     val lng = location.getDouble("lng")
                     val name = results_item.getString("name")
                     val vicinity = results_item.getString("vicinity")
+
+                    Log.d("NEARBY",location.toString())
+                    Log.d("NEARBY",name)
+                    Log.d("NEARBY",vicinity)
+                    Log.d("NEARBY","==============")
 
                     nearby_lat.add(lat)
                     nearby_log.add(lng)
