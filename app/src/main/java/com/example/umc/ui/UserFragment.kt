@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,21 +18,18 @@ import androidx.core.content.ContextCompat.getSystemService
 import com.example.umc.R
 import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.databinding.FragmentUserBinding
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 
 class UserFragment : Fragment(), OnMapReadyCallback {
-
-    private lateinit var binding: FragmentUserBinding
 
     //허용받은 권한 목록
     val permission_list = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
+
+    private lateinit var binding: FragmentUserBinding
 
     //gps 정보를 관리할 매니저
     private lateinit var manager : LocationManager
@@ -43,10 +41,10 @@ class UserFragment : Fragment(), OnMapReadyCallback {
     //구글맵을 제어해야 하므로 구글맵 객체도 받아옴
     private lateinit var googleMap: GoogleMap
 
+    private lateinit var mapView : MapView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
     }
 
     override fun onCreateView(
@@ -62,9 +60,13 @@ class UserFragment : Fragment(), OnMapReadyCallback {
         requestPermissions(permission_list, 0)
 
         //맵의 상태가 변경되면 호출될 메소드가 구현되어 있는 곳 등록
-        val mapFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment?
+        mapView = binding.mapView as MapView
+        mapView.onCreate(savedInstanceState)
 
-        mapFragment?.getMapAsync(this) //비동기적으로 구글 맵 실행
+        Log.d("MAP1", mapView.toString())
+
+        mapView.getMapAsync(this)
+
         return view
     }
 
@@ -78,6 +80,9 @@ class UserFragment : Fragment(), OnMapReadyCallback {
         val loc1 = LatLng(location.latitude, location.longitude)
         //지도를 이동시키기 위한 객체 생성
         val loc2 = CameraUpdateFactory.newLatLngZoom(loc1, 15f)
+
+        Log.d("MAP2", location.toString())
+
         // 이동
         googleMap.animateCamera(loc2)
     }
@@ -129,6 +134,48 @@ class UserFragment : Fragment(), OnMapReadyCallback {
     //지도가 준비 완료되면 호출되는 메소드, p0가 구글 지도 객체
     override fun onMapReady(p0: GoogleMap) {
         googleMap = p0
+
+        //구글 지도에 관련된 옵션을 설정한 후 현재 위치를 측정하도록 설정
+        //구글 지도의 옵션 설정을 위해 권한 확인
+        val auth1 = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        val auth2 = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+
+        //권한을 허용하는 경우 작업이 이루어짐
+        if ((auth1 == PackageManager.PERMISSION_GRANTED) && (auth2 == PackageManager.PERMISSION_GRANTED)) {
+            Log.d("MAP", "권한이 허용됨")
+            //확대 축소버튼이 나타나게 됨
+            googleMap.uiSettings.isZoomControlsEnabled = true
+
+            //현재 위치를 표시하는 기능 제공
+            googleMap.isMyLocationEnabled = true
+        }
+
+        //현재 위치를 측정
         getMyLocation()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+    override fun onDestroy() {
+        mapView.onDestroy()
+        super.onDestroy()
     }
 }
