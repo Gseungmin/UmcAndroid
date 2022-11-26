@@ -30,19 +30,6 @@
             app:layout_constraintStart_toStartOf="parent"></TextView>
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:id="@+id/age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
-            android:text="나이"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/ImageArea"
-            app:layout_constraintStart_toEndOf="@+id/name"></TextView>
-
-        <TextView
             android:id="@+id/job"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

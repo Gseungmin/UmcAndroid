@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.umc.adapter.ImageUploadAdapter
@@ -29,7 +30,6 @@ class UploadActivity : AppCompatActivity() {
     private val PICK_IMAGE_FROM_GALLERY = 1000
     private val PICK_IMAGE_FROM_GALLERY_PERMISSION = 1010
     private lateinit var imageRVAdapter : ImageUploadAdapter
-    private var datas = mutableListOf<Uri>()
     lateinit var viewModel: ImageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +42,7 @@ class UploadActivity : AppCompatActivity() {
         val dataRepository = DataRepository(database)
         val factory = ImageViewModelFactory(dataRepository)
         viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
+
 
         // 사진첨부 버튼 클릭 이벤트 구현
         binding.btnShowGallery.setOnClickListener {
@@ -63,18 +64,19 @@ class UploadActivity : AppCompatActivity() {
 
         //사진 저장 이벤트 구현
         binding.btnSave.setOnClickListener {
-            for (item in datas) {
-                Log.d("BITMAP1", item.toString())
+            for (item in viewModel.datas.value!!) {
                 val imageBitmap = setImageBitmap(item)
-                viewModel.insertData(imageBitmap, "오사카의 밤", "도본토리")
-                viewModel.getData()
+                viewModel.insertData(imageBitmap, binding.title.text.toString(), binding.location.text.toString())
             }
+            finish()
         }
 
         viewModel.datas.observe(this) {
             imageRVAdapter = ImageUploadAdapter(viewModel.datas.value!!)
             binding.recyclerView.adapter = imageRVAdapter
             binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+            binding.btnSave.isVisible = true
         }
     }
 
@@ -150,7 +152,6 @@ class UploadActivity : AppCompatActivity() {
         }else{
             MediaStore.Images.Media.getBitmap(contentResolver, uri)
         }
-        Log.d("BITMAP2", bitmap.toString())
         return bitmap
     }
 }
