@@ -22,6 +22,14 @@ import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.databinding.FragmentUserBinding
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
 class UserFragment : Fragment(), OnMapReadyCallback {
 
@@ -50,6 +58,16 @@ class UserFragment : Fragment(), OnMapReadyCallback {
         "synagogue", "taxi_stand", "tourist_attraction", "train_station",
         "transit_station", "travel_agency", "university", "eterinary_care","zoo"
     )
+
+    //현재 위치
+    var myLocation : Location? = null
+
+    //마커 정보를 위한 리스트들
+    var nearby_lat = ArrayList<Double>()
+    var nearby_log = ArrayList<Double>()
+    var nearby_name = ArrayList<String>()
+    var nearby_vicinity = ArrayList<String>()
+    var nearby_marker = ArrayList<Marker>()
 
     //허용받은 권한 목록
     val permission_list = arrayOf(
@@ -218,6 +236,76 @@ class UserFragment : Fragment(), OnMapReadyCallback {
 
         //현재 위치를 측정
         getMyLocation()
+    }
+
+    /**
+     * 주위 정보를 가져오는 메소드 추가
+     */
+    private fun getNearbyPlaceData(type : String) {
+
+        thread {
+            var site = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                    "?location=${myLocation?.latitude},${myLocation?.longitude}" +
+                    "&radius=1000" +
+                    "&type=${type}" +
+                    "&key=AIzaSyALRGYsc5pBa5ngpZgrkE5fErT24cunGbs" +
+                    "&language=ko"
+
+            val url = URL(site)
+            val conn = url.openConnection() as HttpURLConnection
+
+            //데이터를 읽어옴
+            val isr = InputStreamReader(conn.inputStream, "UTF-8")
+            val br = BufferedReader(isr)
+
+            var str:String? = null
+            val buf = StringBuffer()
+
+            do {
+                str = br.readLine()
+                if (str != null) {
+                    buf.append(str)
+                }
+            } while (str != null)
+
+            val data = buf.toString()
+
+            //JSON 객체 생성
+            val root = JSONObject(data)
+
+            if (root.getString("status") == "OK") {
+                val results = root.getJSONArray("results")
+
+                for (i in 0 until results.length()){
+                    val results_item = results.getJSONObject(i)
+
+                    val geo = results_item.getJSONObject("geometry")
+                    val location = geo.getJSONObject("location")
+                    val lat = location.getDouble("lat")
+                    val lng = location.getDouble("lng")
+                    val name = results_item.getString("name")
+                    val vicinity = results_item.getString("vicinity")
+
+                    nearby_lat.add(lat)
+                    nearby_log.add(lng)
+                    nearby_name.add(name)
+                    nearby_vicinity.add(vicinity)
+
+                    requireActivity().runOnUiThread{
+                        for (k in 0 until nearby_lat.size){
+                            val loc = LatLng(nearby_lat[i], nearby_log[i])
+                            var placeMarkerOptions = MarkerOptions()
+                            placeMarkerOptions.position(loc)
+                            placeMarkerOptions.title(nearby_name[i])
+                            placeMarkerOptions.snippet(nearby_vicinity[i])
+
+                            val placeMarker = googleMap.addMarker(placeMarkerOptions)
+                            nearby_marker.add(placeMarker!!)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onStart() {
