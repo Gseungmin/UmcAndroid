@@ -4,29 +4,37 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.location.*
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.umc.Constants
+import com.example.umc.Constants.PLACE_API_KEY
 import com.example.umc.R
-import com.example.umc.databinding.ActivityLoginBinding
 import com.example.umc.databinding.ActivityMapBinding
-import com.google.android.gms.maps.*
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
+import kotlin.math.ln
+
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -84,11 +92,20 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     //구글맵을 제어해야 하므로 구글맵 객체도 받아옴
     private lateinit var googleMap: GoogleMap
 
+    private lateinit var geocoder: Geocoder
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        //Place 초기화
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, PLACE_API_KEY)
+        }
+        val placesClient = Places.createClient(this)
 
         //권한 요청
         requestPermissions(permission_list, 0)
@@ -97,6 +114,37 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        //AutocompleteSupportFragment 초기화
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+
+        // 리턴받은 정보 구체화해서 셋팅
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG))
+
+        // 장소 선택시 발생하는 리스너
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                Log.d("PLACE", "Place: ${place.name}, ${place.address}, ${place.latLng}")
+
+                val lat = place.latLng.latitude
+                val lng = place.latLng.longitude
+
+
+                val loc1 = LatLng(lat, lng)
+                //지도를 이동시키기 위한 객체 생성
+                val loc2 = CameraUpdateFactory.newLatLngZoom(loc1, 15f)
+
+                // 이동
+                googleMap.animateCamera(loc2)
+            }
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.d("PLACE", "An error occurred: $status")
+            }
+        })
 
         binding.dialog.setOnClickListener {
             val placeListBuilder = AlertDialog.Builder(this)
