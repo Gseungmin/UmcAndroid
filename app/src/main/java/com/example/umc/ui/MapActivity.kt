@@ -67,7 +67,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     )
 
     //현재 위치
-    var myLocation : Location? = null
+//    var myLocation : Location? = null
+    var now_log : Double? = null
+    var now_lat : Double? = null
+
 
     //마커 정보를 위한 리스트들
     var nearby_lat = ArrayList<Double>()
@@ -91,8 +94,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     //구글맵을 제어해야 하므로 구글맵 객체도 받아옴
     private lateinit var googleMap: GoogleMap
-
-    private lateinit var geocoder: Geocoder
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,12 +126,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         // 장소 선택시 발생하는 리스너
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
-                Log.d("PLACE", "Place: ${place.name}, ${place.address}, ${place.latLng}")
-
                 val lat = place.latLng.latitude
                 val lng = place.latLng.longitude
 
+                now_lat = lat
+                now_log = lng
 
                 val loc1 = LatLng(lat, lng)
                 //지도를 이동시키기 위한 객체 생성
@@ -141,7 +141,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onError(status: Status) {
-                // TODO: Handle the error.
                 Log.d("PLACE", "An error occurred: $status")
             }
         })
@@ -196,10 +195,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         //지도를 이동시키기 위한 객체 생성
         val loc2 = CameraUpdateFactory.newLatLngZoom(loc1, 15f)
 
-        myLocation = location
-        Log.d("NEARBY", myLocation.toString())
+        now_log = location.longitude
+        now_lat = location.latitude
+//        myLocation = location
+//        Log.d("NEARBY", myLocation.toString())
 
-        Log.d("MAP2", location.toString())
+//        Log.d("MAP2", location.toString())
 
         // 이동
         googleMap.animateCamera(loc2)
@@ -279,7 +280,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         thread {
             var site = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
-                    "?location=${myLocation?.latitude},${myLocation?.longitude}" +
+                    "?location=${now_lat},${now_log}" +
                     "&radius=1000" +
                     "&type=${type}" +
                     "&key=${Constants.PLACE_API_KEY}" +
