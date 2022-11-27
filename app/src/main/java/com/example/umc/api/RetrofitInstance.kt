@@ -1,8 +1,10 @@
 package com.example.umc.api
 
+import com.example.umc.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
  * Retrofit 객체로 API를 호출해주는 객체
@@ -20,15 +22,15 @@ object RetrofitInstance {
         OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
     }
 
-//    private val retrofit: Retrofit by lazy {
-//        Retrofit.Builder()
-//            .addConverterFactory(MoshiConverterFactory.create())
-//            .client(okHttpClient).baseUrl(BASE_URL).build() //build로 객체 생성
-//    }
-//
-//    val api: BookSearchApi by lazy {
-//        retrofit.create(BookSearchApi::class.java)
-//    }
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .client(okHttpClient).baseUrl(BASE_URL).build() //build로 객체 생성
+    }
+
+    val api: LoginApi by lazy {
+        retrofit.create(LoginApi::class.java)
+    }
 
     fun getInstance() : Retrofit {
         return retrofit
