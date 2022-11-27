@@ -3,6 +3,7 @@ package com.example.umc.ui
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -98,54 +99,55 @@ class UserFragment : Fragment(), OnMapReadyCallback {
         binding = FragmentUserBinding.inflate(layoutInflater)
         val view = binding.root
 
-        //권한 요청
-        requestPermissions(permission_list, 0)
-
-        //맵의 상태가 변경되면 호출될 메소드가 구현되어 있는 곳 등록
-        mapView = binding.mapView as MapView
-        mapView.onCreate(savedInstanceState)
-
-        Log.d("MAP1", mapView.toString())
-
-        mapView.getMapAsync(this)
-
-        binding.dialog.setOnClickListener {
-            val placeListBuilder = AlertDialog.Builder(requireContext())
-            placeListBuilder.setTitle("장소 종류 선택")
-            placeListBuilder.setNegativeButton("취소", null)
-            placeListBuilder.setNeutralButton("초기화") { dialogInterface, i ->
-                //마커 제거
-                for (m in nearby_marker) {
-                    m.remove()
-                }
-
-                //리스트 초기화
-                nearby_lat.clear()
-                nearby_name.clear()
-                nearby_vicinity.clear()
-                nearby_log.clear()
-                nearby_marker.clear()
-            }
-            placeListBuilder.setItems(dialogData) {
-                    dialogInterface, i ->
-
-                //마커 제거
-                for (m in nearby_marker) {
-                    m.remove()
-                }
-
-                //리스트 초기화
-                nearby_lat.clear()
-                nearby_name.clear()
-                nearby_vicinity.clear()
-                nearby_log.clear()
-                nearby_marker.clear()
-
-                getNearbyPlaceData(dialogData[i])
-            }
-
-            placeListBuilder.show()
-        }
+//
+//        //권한 요청
+//        requestPermissions(permission_list, 0)
+//
+//        //맵의 상태가 변경되면 호출될 메소드가 구현되어 있는 곳 등록
+//        mapView = binding.mapView as MapView
+//        mapView.onCreate(savedInstanceState)
+//
+//        Log.d("MAP1", mapView.toString())
+//
+//        mapView.getMapAsync(this)
+//
+//        binding.dialog.setOnClickListener {
+//            val placeListBuilder = AlertDialog.Builder(requireContext())
+//            placeListBuilder.setTitle("장소 종류 선택")
+//            placeListBuilder.setNegativeButton("취소", null)
+//            placeListBuilder.setNeutralButton("초기화") { dialogInterface, i ->
+//                //마커 제거
+//                for (m in nearby_marker) {
+//                    m.remove()
+//                }
+//
+//                //리스트 초기화
+//                nearby_lat.clear()
+//                nearby_name.clear()
+//                nearby_vicinity.clear()
+//                nearby_log.clear()
+//                nearby_marker.clear()
+//            }
+//            placeListBuilder.setItems(dialogData) {
+//                    dialogInterface, i ->
+//
+//                //마커 제거
+//                for (m in nearby_marker) {
+//                    m.remove()
+//                }
+//
+//                //리스트 초기화
+//                nearby_lat.clear()
+//                nearby_name.clear()
+//                nearby_vicinity.clear()
+//                nearby_log.clear()
+//                nearby_marker.clear()
+//
+//                getNearbyPlaceData(dialogData[i])
+//            }
+//
+//            placeListBuilder.show()
+//        }
 
         return view
     }

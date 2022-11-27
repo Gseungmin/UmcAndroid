@@ -1,14 +1,18 @@
 package com.example.umc.ui
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.umc.R
 import com.example.umc.adapter.CardStackAdapter
 import com.example.umc.databinding.FragmentHomeBinding
 import com.example.umc.model.Image
@@ -73,6 +77,11 @@ class HomeFragment : Fragment() {
          * RecyclerView item 클릭 이벤트
          * */
         setAdapterClickEvent()
+
+        /**
+         * RecyclerView Map Item 클릭 이벤트
+         */
+        setMapAdapterClickEvent()
     }
 
     /**
@@ -124,12 +133,24 @@ class HomeFragment : Fragment() {
     private fun setAdapterClickEvent() {
         cardStackAdapter.itemClick = object : CardStackAdapter.ItemClick {
             override fun onClick(view: View, each: Image) {
-                val action = HomeFragmentDirections.actionFragmentHomeToPictureFragment(
-                    each.title, each.location)
-                findNavController().navigate(action);
+                Navigation.findNavController(view).navigate(R.id.action_fragment_home_to_pictureFragment)
             }
         }
     }
+
+    /**
+     * 각 어댑터 클릭 리스너 설정
+     * RecyclerView Adapter 개별 item 클릭시 발생하는 이벤트 처리
+     * safe Args를 통해 해당 item 데이터를 같이 보내면 item에 해당하는 뷰를 보여줌
+     * */
+    private fun setMapAdapterClickEvent() {
+        cardStackAdapter.mapClick = object : CardStackAdapter.ItemClick {
+            override fun onClick(view: View, each: Image) {
+                startActivity(Intent(requireActivity(), UploadActivity::class.java))
+            }
+        }
+    }
+
 
     /**
      * Transform From bitmap to Uri
