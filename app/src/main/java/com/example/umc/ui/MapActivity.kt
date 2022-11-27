@@ -3,20 +3,20 @@ package com.example.umc.ui
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import com.example.umc.Constants.PLACE_API_KEY
-import com.example.umc.databinding.FragmentUserBinding
+import com.example.umc.Constants
+import com.example.umc.R
+import com.example.umc.databinding.ActivityLoginBinding
+import com.example.umc.databinding.ActivityMapBinding
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -28,7 +28,9 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-class UserFragment : Fragment(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private lateinit var binding: ActivityMapBinding
 
     //장소 유형 리스트
     val dialogData = arrayOf(
@@ -72,8 +74,6 @@ class UserFragment : Fragment(), OnMapReadyCallback {
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private lateinit var binding: FragmentUserBinding
-
     //gps 정보를 관리할 매니저
     private lateinit var manager : LocationManager
 
@@ -84,35 +84,22 @@ class UserFragment : Fragment(), OnMapReadyCallback {
     //구글맵을 제어해야 하므로 구글맵 객체도 받아옴
     private lateinit var googleMap: GoogleMap
 
-    private lateinit var mapView : MapView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-
-        // Inflate the layout for this fragment
-        binding = FragmentUserBinding.inflate(layoutInflater)
+        binding = ActivityMapBinding.inflate(layoutInflater)
         val view = binding.root
-
+        setContentView(view)
 
         //권한 요청
         requestPermissions(permission_list, 0)
 
         //맵의 상태가 변경되면 호출될 메소드가 구현되어 있는 곳 등록
-        mapView = binding.mapView as MapView
-        mapView.onCreate(savedInstanceState)
-
-        Log.d("MAP1", mapView.toString())
-
-        mapView.getMapAsync(this)
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         binding.dialog.setOnClickListener {
-            val placeListBuilder = AlertDialog.Builder(requireContext())
+            val placeListBuilder = AlertDialog.Builder(this)
             placeListBuilder.setTitle("장소 종류 선택")
             placeListBuilder.setNegativeButton("취소", null)
             placeListBuilder.setNeutralButton("초기화") { dialogInterface, i ->
@@ -148,8 +135,6 @@ class UserFragment : Fragment(), OnMapReadyCallback {
 
             placeListBuilder.show()
         }
-
-        return view
     }
 
     // 위치 값을 받아 지도를 이동시키는 메소드
@@ -175,12 +160,12 @@ class UserFragment : Fragment(), OnMapReadyCallback {
     //현재 위치를 측정하는 메소드
     private fun getMyLocation() {
         // 위치 정보를 관리하는 매니저 추출
-        manager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         // 저장되어 있는 위치값이 있으면 가져옴
         // 먼저 권한 체크부터 실행
-        val auth1 = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-        val auth2 = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        val auth1 = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val auth2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
 
         //허용을 하지 않은 경우 함수 종료
         if ((auth1 != PackageManager.PERMISSION_GRANTED) && (auth2 != PackageManager.PERMISSION_GRANTED)) {
@@ -222,8 +207,8 @@ class UserFragment : Fragment(), OnMapReadyCallback {
 
         //구글 지도에 관련된 옵션을 설정한 후 현재 위치를 측정하도록 설정
         //구글 지도의 옵션 설정을 위해 권한 확인
-        val auth1 = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-        val auth2 = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        val auth1 = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        val auth2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
 
         //권한을 허용하는 경우 작업이 이루어짐
         if ((auth1 == PackageManager.PERMISSION_GRANTED) && (auth2 == PackageManager.PERMISSION_GRANTED)) {
@@ -249,7 +234,7 @@ class UserFragment : Fragment(), OnMapReadyCallback {
                     "?location=${myLocation?.latitude},${myLocation?.longitude}" +
                     "&radius=1000" +
                     "&type=${type}" +
-                    "&key=${PLACE_API_KEY}" +
+                    "&key=${Constants.PLACE_API_KEY}" +
                     "&language=ko"
 
             Log.d("NEARBY",site)
@@ -301,7 +286,7 @@ class UserFragment : Fragment(), OnMapReadyCallback {
                     nearby_name.add(name)
                     nearby_vicinity.add(vicinity)
 
-                    requireActivity().runOnUiThread{
+                    runOnUiThread{
                         for (k in 0 until nearby_lat.size){
                             val loc = LatLng(nearby_lat[i], nearby_log[i])
                             var placeMarkerOptions = MarkerOptions()
@@ -316,30 +301,5 @@ class UserFragment : Fragment(), OnMapReadyCallback {
                 }
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-    override fun onDestroy() {
-        mapView.onDestroy()
-        super.onDestroy()
     }
 }

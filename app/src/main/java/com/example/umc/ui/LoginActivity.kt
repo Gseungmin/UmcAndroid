@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.naver.setOnClickListener{
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, MapActivity::class.java))
             finish()
         }
     }
