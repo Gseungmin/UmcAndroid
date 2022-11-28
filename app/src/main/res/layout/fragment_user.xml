@@ -7,12 +7,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.UserFragment">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map_view"
-        android:name="com.google.android.gms.maps.MapFragment"
+
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.google.android.gms.maps.MapView>
+
+        <fragment android:id="@+id/autocomplete_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_view"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.google.android.gms.maps.MapView>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/dialog"

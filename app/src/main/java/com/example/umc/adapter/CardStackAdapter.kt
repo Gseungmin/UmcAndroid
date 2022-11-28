@@ -37,19 +37,12 @@ class CardStackAdapter(private val items : List<Image>) : RecyclerView.Adapter<C
     }
 
     var itemClick: ItemClick? = null
-    var mapClick: ItemClick? = null
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding(items[position])
         if (itemClick != null){
             holder?.binding.ImageArea.setOnClickListener(View.OnClickListener {
                 itemClick?.onClick(it, items[position])
-                Log.d("ITEMINFO", items[position].toString())
-            })
-        }
-        if (mapClick != null){
-            holder?.binding.direction.setOnClickListener(View.OnClickListener {
-                mapClick?.onClick(it, items[position])
                 Log.d("ITEMINFO", items[position].toString())
             })
         }

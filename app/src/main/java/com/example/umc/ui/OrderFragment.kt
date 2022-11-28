@@ -37,6 +37,11 @@ class OrderFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.map.setOnClickListener {
+            val intent = Intent(activity, MapActivity::class.java)
+            startActivity(intent)
+        }
+
         return view
     }
 }

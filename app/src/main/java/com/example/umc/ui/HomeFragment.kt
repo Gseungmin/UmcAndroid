@@ -78,10 +78,10 @@ class HomeFragment : Fragment() {
          * */
         setAdapterClickEvent()
 
-        /**
-         * RecyclerView Map Item 클릭 이벤트
-         */
-        setMapAdapterClickEvent()
+//        /**
+//         * RecyclerView Map Item 클릭 이벤트
+//         */
+//        setMapAdapterClickEvent()
     }
 
     /**
@@ -138,18 +138,18 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /**
-     * 각 어댑터 클릭 리스너 설정
-     * RecyclerView Adapter 개별 item 클릭시 발생하는 이벤트 처리
-     * safe Args를 통해 해당 item 데이터를 같이 보내면 item에 해당하는 뷰를 보여줌
-     * */
-    private fun setMapAdapterClickEvent() {
-        cardStackAdapter.mapClick = object : CardStackAdapter.ItemClick {
-            override fun onClick(view: View, each: Image) {
-                startActivity(Intent(requireActivity(), UploadActivity::class.java))
-            }
-        }
-    }
+//    /**
+//     * 각 어댑터 클릭 리스너 설정
+//     * RecyclerView Adapter 개별 item 클릭시 발생하는 이벤트 처리
+//     * safe Args를 통해 해당 item 데이터를 같이 보내면 item에 해당하는 뷰를 보여줌
+//     * */
+//    private fun setMapAdapterClickEvent() {
+//        cardStackAdapter.mapClick = object : CardStackAdapter.ItemClick {
+//            override fun onClick(view: View, each: Image) {
+//                startActivity(Intent(requireActivity(), UploadActivity::class.java))
+//            }
+//        }
+//    }
 
 
     /**

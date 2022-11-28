@@ -43,15 +43,15 @@
             app:layout_constraintStart_toStartOf="parent"></TextView>
 
 
-        <ImageView
-            android:id="@+id/direction"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/location_pin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"></ImageView>
+<!--        <ImageView-->
+<!--            android:id="@+id/direction"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:src="@drawable/location_pin"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"></ImageView>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

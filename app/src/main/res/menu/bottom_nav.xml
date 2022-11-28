@@ -5,10 +5,10 @@
         android:icon="@drawable/home"
         />
 
-    <item android:id="@+id/fragment_user"
-        android:title=""
-        android:icon="@drawable/order"
-        />
+<!--    <item android:id="@+id/fragment_user"-->
+<!--        android:title=""-->
+<!--        android:icon="@drawable/order"-->
+<!--        />-->
 
     <item android:id="@+id/fragment_order"
         android:title=""
