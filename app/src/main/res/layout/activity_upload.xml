@@ -58,10 +58,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#ffececec"></LinearLayout>
+
+                <Button
+                    android:textColor="@color/black"
+                    android:text="날짜 선택"
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="60dp"
+                    android:background="@color/backgroundMain"></Button>
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:visibility="invisible"
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="40dp"

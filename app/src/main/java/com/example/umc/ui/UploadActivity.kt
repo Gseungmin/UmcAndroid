@@ -2,6 +2,7 @@ package com.example.umc.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,17 +13,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.umc.R
 import com.example.umc.adapter.ImageUploadAdapter
 import com.example.umc.databinding.ActivityUploadBinding
 import com.example.umc.db.DataBase
 import com.example.umc.repository.DataRepository
 import com.example.umc.viewmodel.ImageViewModel
 import com.example.umc.viewmodel.ImageViewModelFactory
+import java.util.*
 
 class UploadActivity : AppCompatActivity() {
 
@@ -43,6 +48,20 @@ class UploadActivity : AppCompatActivity() {
         val factory = ImageViewModelFactory(dataRepository)
         viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
 
+        binding.date.setOnClickListener {
+            val today = GregorianCalendar()
+            val year : Int = today.get(Calendar.YEAR)
+            val month : Int = today.get(Calendar.MONTH)
+            val date : Int = today.get(Calendar.DATE)
+
+            //날짜를 픽하면 해당 날짜 출력
+            val calender = DatePickerDialog(this, object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+                    binding.date.setText("${p1}, ${p2+1}, ${p3}")
+                }
+            }, year, month, date)
+            calender.show()
+        }
 
         // 사진첨부 버튼 클릭 이벤트 구현
         binding.btnShowGallery.setOnClickListener {
