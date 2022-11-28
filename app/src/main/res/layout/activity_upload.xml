@@ -72,6 +72,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:visibility="invisible"
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="40dp"

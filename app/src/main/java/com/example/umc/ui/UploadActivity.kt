@@ -85,7 +85,7 @@ class UploadActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             for (item in viewModel.datas.value!!) {
                 val imageBitmap = setImageBitmap(item)
-                viewModel.insertData(imageBitmap, binding.title.text.toString(), binding.location.text.toString())
+                viewModel.insertData(imageBitmap, binding.title.text.toString(), binding.location.text.toString(), binding.date.text.toString())
             }
             finish()
         }

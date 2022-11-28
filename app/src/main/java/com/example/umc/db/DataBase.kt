@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [DataEntity::class], version = 2, exportSchema = false)
+@Database(entities = [DataEntity::class], version = 9, exportSchema = false)
 @TypeConverters(ImageConverter::class)
 abstract class DataBase : RoomDatabase() {
 

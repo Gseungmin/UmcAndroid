@@ -21,9 +21,9 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
         _imageList.postValue(repository.getAllData())
     }
 
-    fun insertData(bitmap: Bitmap, title: String, location: String) =
+    fun insertData(bitmap: Bitmap, title: String, location: String, date: String) =
         viewModelScope.launch(Dispatchers.IO) {
-            val dataEntity = DataEntity(0,title,location,bitmap)
+            val dataEntity = DataEntity(0,title,location,bitmap,date)
             repository.insertData(dataEntity)
     }
 

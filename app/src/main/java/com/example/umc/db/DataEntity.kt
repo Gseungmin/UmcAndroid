@@ -16,5 +16,7 @@ data class DataEntity (
     @ColumnInfo(name = "location")
     var location: String,
     @ColumnInfo(name = "image")
-    var image: Bitmap
+    var image: Bitmap,
+    @ColumnInfo(name = "date")
+    var date: String
 )
