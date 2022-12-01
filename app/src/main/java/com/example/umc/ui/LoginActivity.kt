@@ -1,21 +1,14 @@
 package com.example.umc.ui
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.umc.Constants.KAKAO_KEY
-import com.example.umc.R
 import com.example.umc.databinding.ActivityLoginBinding
-import com.example.umc.repository.LoginRepository
-import com.example.umc.viewmodel.LoginViewModel
-import com.example.umc.viewmodel.LoginViewModelFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -24,8 +17,6 @@ import com.google.android.gms.tasks.Task
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.AuthErrorCause
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 
@@ -33,7 +24,6 @@ import com.kakao.sdk.user.UserApiClient
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    lateinit var viewModel: LoginViewModel
 
     private lateinit var GoogleSignResultLauncher: ActivityResultLauncher<Intent>
 
@@ -59,10 +49,6 @@ class LoginActivity : AppCompatActivity() {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             handleSignInResult(task)
         }
-
-        val loginRepository = LoginRepository()
-        val factory = LoginViewModelFactory(loginRepository)
-        viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
         //인텐트를 시작하면 사용자에게 로그인할 Google 계정을 선택하라는 메시지가 표시됨
         //profile, email, openid 이외의 범위를 요청한 경우 사용자에게 요청된 리소스에 대한 액세스 권한을 부여하라는 메시지도 표시됨
