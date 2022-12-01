@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.example.umc.R
+import com.example.umc.Sort
 import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.viewmodel.ImageViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,11 +21,14 @@ import com.google.android.gms.common.api.Api.Client
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.coroutines.launch
 
 
 class OrderFragment : Fragment() {
 
-    private lateinit var binding: FragmentOrderBinding
+    private var _binding : FragmentOrderBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var viewModel: ImageViewModel
 
     var mGoogleSignInClient : GoogleSignInClient ?= null
@@ -39,6 +45,9 @@ class OrderFragment : Fragment() {
 
         binding = FragmentOrderBinding.inflate(layoutInflater)
         val view = binding.root
+
+        saveSettings()
+        loadSettings()
 
         viewModel = (activity as MainActivity).viewModel
 
@@ -83,5 +92,38 @@ class OrderFragment : Fragment() {
     private fun signOut(mGoogleSignInClient : GoogleSignInClient) {
         Log.d("SIGNOUT", mGoogleSignInClient.toString())
         mGoogleSignInClient?.signOut()
+    }
+
+    //datastore code
+    //값을 datastore에 반영
+    private fun saveSettings() {
+        binding.rgSort.setOnCheckedChangeListener { _, checkedId ->
+            val value = when (checkedId) { //check된 버튼을 확인 한 후
+                //해당되는 sort값을 받아와서 정의해서 저장
+                R.id.rb_accuracy -> Sort.ACCURACY.value
+                R.id.rb_latest -> Sort.LATEST.value
+                else -> return@setOnCheckedChangeListener
+            } //저장
+            viewModel.saveSortMode(value)
+        }
+    }
+
+    //radio button에 반영
+    private fun loadSettings() {
+        lifecycleScope.launch {
+            //불러온 값을 확인한후 라디오 버튼에 반영
+            val buttonId = when (viewModel.getSortMode()) {
+                Sort.ACCURACY.value -> R.id.rb_accuracy
+                Sort.LATEST.value -> R.id.rb_latest
+                else -> return@launch
+            }
+            binding.rgSort.check(buttonId)
+        }
+    }
+
+    //viewBinding이 더이상 필요 없을 경우 null 처리 필요
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 }
