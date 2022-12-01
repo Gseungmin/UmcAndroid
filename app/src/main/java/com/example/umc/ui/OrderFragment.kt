@@ -1,5 +1,6 @@
 package com.example.umc.ui
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Api.Client
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.kakao.sdk.user.UserApiClient
 
 
 class OrderFragment : Fragment() {
@@ -61,6 +63,16 @@ class OrderFragment : Fragment() {
 
         binding.logout.setOnClickListener {
             signOut(mGoogleSignInClient)
+
+            UserApiClient.instance.logout { error ->
+                if (error != null) {
+                    Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                }
+                else {
+                    Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                }
+            }
+
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
         }

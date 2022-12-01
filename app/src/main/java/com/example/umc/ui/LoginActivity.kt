@@ -58,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         var keyHash = Utility.getKeyHash(this)
-        Log.d("keyhash", keyHash.toString())
 
         //Kakao SDK를 사용하기 위해선 Native App Key로 초기화
         KakaoSdk.init(this, KAKAO_KEY)
