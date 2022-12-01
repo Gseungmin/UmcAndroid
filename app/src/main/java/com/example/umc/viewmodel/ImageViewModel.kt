@@ -22,7 +22,7 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
 
     fun getData() = viewModelScope.launch(Dispatchers.IO) {
         _imageList.postValue(repository.getAllData())
-        getSortMode()
+        Log.d("SAVEDATASORTMODE", getSortMode().toString())
     }
 
     fun insertData(bitmap: Bitmap, title: String, location: String, date: String) =
@@ -55,7 +55,6 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
     suspend fun getSortMode() = withContext(Dispatchers.IO) {
         //설정 값 특성상 전체 데이터 스트림을 가져올 필요 없음
         //withContext는 반드시 값을 반환하고 종료됨
-        val data = repository.getSortMode().first()
-        Log.d("Value", data)
+        repository.getSortMode().first()
     }
 }

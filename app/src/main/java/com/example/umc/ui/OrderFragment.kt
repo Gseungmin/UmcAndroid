@@ -43,13 +43,13 @@ class OrderFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
 
-        binding = FragmentOrderBinding.inflate(layoutInflater)
+        _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        viewModel = (activity as MainActivity).viewModel
 
         saveSettings()
         loadSettings()
-
-        viewModel = (activity as MainActivity).viewModel
 
         binding.delete.setOnClickListener {
             viewModel.deleteData()
@@ -104,6 +104,7 @@ class OrderFragment : Fragment() {
                 R.id.rb_latest -> Sort.LATEST.value
                 else -> return@setOnCheckedChangeListener
             } //저장
+            Log.d("SAVEDATA", value)
             viewModel.saveSortMode(value)
         }
     }
