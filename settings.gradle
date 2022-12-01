@@ -12,6 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
         jcenter() //추가
         maven { url 'https://jitpack.io' } //추가
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/'}
     }
 }
 rootProject.name = "UMC"
