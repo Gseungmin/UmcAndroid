@@ -3,6 +3,7 @@ package com.example.umc.ui
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,10 +17,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.umc.Constants
 import com.example.umc.R
 import com.example.umc.adapter.ImageUploadAdapter
 import com.example.umc.databinding.ActivityUploadBinding
@@ -37,6 +41,10 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var imageRVAdapter : ImageUploadAdapter
     lateinit var viewModel: ImageViewModel
 
+    //dataStore의 싱글톤 객체 생성
+    private val Context.dataStore by preferencesDataStore(Constants.DATASTORE_NAME)
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -44,7 +52,7 @@ class UploadActivity : AppCompatActivity() {
         setContentView(view)
 
         val database = DataBase.getDatabase(this)
-        val dataRepository = DataRepository(database)
+        val dataRepository = DataRepository(database, dataStore)
         val factory = ImageViewModelFactory(dataRepository)
         viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
 
@@ -105,6 +113,7 @@ class UploadActivity : AppCompatActivity() {
         activity.startActivityForResult(intent, PICK_IMAGE_FROM_GALLERY)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun showPermissionContextPopup() {
         AlertDialog.Builder(this)
             .setTitle("권한이 필요합니다.")
