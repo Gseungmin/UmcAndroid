@@ -49,7 +49,7 @@ android {
 dependencies {
 
     //데이터 스토어
-    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha01")
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
     //kakao 로그인
     implementation "com.kakao.sdk:v2-user:2.11.2"
