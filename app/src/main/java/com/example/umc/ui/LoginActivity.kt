@@ -65,10 +65,8 @@ class LoginActivity : AppCompatActivity() {
         // 로그인 정보 확인
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
             }
             else if (tokenInfo != null) {
-                Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
@@ -115,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        val serviceTerms = listOf("service")
         //로그인 버튼 입력
         binding.kakao.setOnClickListener {
             if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
