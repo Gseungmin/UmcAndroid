@@ -15,7 +15,8 @@ import java.io.IOException
 class DataRepository(private val db: DataBase,
                      private val dataStore: DataStore<Preferences>) {
 
-    fun getAllData() = db.dataDao().getAllData()
+    fun getAllDataASC() = db.dataDao().getAllDataASC()
+    fun getAllDataDESC() = db.dataDao().getAllDataDESC()
 
     fun insertData(dataEntity: DataEntity) =
         db.dataDao().insert(dataEntity)

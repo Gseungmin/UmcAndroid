@@ -19,10 +19,13 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
     private var _imageList = MutableLiveData<List<DataEntity>>()
     val imageList : LiveData<List<DataEntity>>
         get() = _imageList
-
+    
     fun getData() = viewModelScope.launch(Dispatchers.IO) {
-        _imageList.postValue(repository.getAllData())
-        Log.d("SAVEDATASORTMODE", getSortMode().toString())
+        if (getSortMode() == "accuracy") {
+            _imageList.postValue(repository.getAllDataASC())
+        } else if (getSortMode() == "latest") {
+            _imageList.postValue(repository.getAllDataDESC())
+        }
     }
 
     fun insertData(bitmap: Bitmap, title: String, location: String, date: String) =

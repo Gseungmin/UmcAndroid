@@ -104,7 +104,6 @@ class OrderFragment : Fragment() {
                 R.id.rb_latest -> Sort.LATEST.value
                 else -> return@setOnCheckedChangeListener
             } //저장
-            Log.d("SAVEDATA", value)
             viewModel.saveSortMode(value)
         }
     }
