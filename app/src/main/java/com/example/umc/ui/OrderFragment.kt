@@ -1,13 +1,11 @@
 package com.example.umc.ui
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.umc.R
@@ -15,23 +13,21 @@ import com.example.umc.Sort
 import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.viewmodel.ImageViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.Api.Client
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.kakao.sdk.user.UserApiClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 
 class OrderFragment : Fragment() {
 
+    private lateinit var auth: FirebaseAuth
+
     private var _binding : FragmentOrderBinding? = null
     private val binding get() = _binding!!
 
     lateinit var viewModel: ImageViewModel
-
-    var mGoogleSignInClient : GoogleSignInClient ?= null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +41,8 @@ class OrderFragment : Fragment() {
 
         _binding = FragmentOrderBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        auth = Firebase.auth
 
         viewModel = (activity as MainActivity).viewModel
 
@@ -65,21 +63,31 @@ class OrderFragment : Fragment() {
             startActivity(intent)
         }
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-        var mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
-
         binding.logout.setOnClickListener {
-            signOut(mGoogleSignInClient)
 
-            UserApiClient.instance.logout { error ->
-                if (error != null) {
-                    Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
-                }
-                else {
-                    Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
-                }
+            /**
+             * 구글 로그아웃
+             */
+            signOut()
+
+//            /**
+//             * kakao 로그아웃
+//             * */
+//            UserApiClient.instance.logout { error ->
+//                if (error != null) {
+//                    Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+//                }
+//                else {
+//                    Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+//                }
+//            }
+
+            /**
+             * 로그아웃
+             * */
+            Log.d("LOGOUT", auth.uid.toString())
+            if (auth.currentUser!!.uid != null) {
+                auth.currentUser!!.delete()
             }
 
             val intent = Intent(activity, LoginActivity::class.java)
@@ -89,9 +97,15 @@ class OrderFragment : Fragment() {
         return view
     }
 
-    private fun signOut(mGoogleSignInClient : GoogleSignInClient) {
-        Log.d("SIGNOUT", mGoogleSignInClient.toString())
-        mGoogleSignInClient?.signOut()
+    private fun signOut() {
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .build()
+        var mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(),gso)
+
+        if (mGoogleSignInClient != null) {
+            mGoogleSignInClient.signOut()
+        }
     }
 
     //datastore code

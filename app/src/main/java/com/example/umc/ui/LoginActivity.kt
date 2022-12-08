@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
 import com.example.umc.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,10 +34,19 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        binding.naver.setOnClickListener {
+            startActivity(Intent(this, AuthActivity::class.java))
+            finish()
+        }
+
         //사용자의 이메일 주소도 요청하려면 requestEmail 옵션 추가
         //ID 및 기본 프로파일은 DEFAULT_SIGN_IN에 포함됩니다.
         //추가로 요청해야하는 정보는 requestScopes를 지정하여 요청함. 꼭 필요한 것들만 요청하도록 한다.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestId()
+            .requestIdToken(GClientId)
+            .requestServerAuthCode(GClientId)
+            .requestProfile()
             .requestEmail()
             .build()
 
@@ -62,14 +72,32 @@ class LoginActivity : AppCompatActivity() {
         //Kakao SDK를 사용하기 위해선 Native App Key로 초기화
         KakaoSdk.init(this, KAKAO_KEY)
 
-        // 로그인 정보 확인
+        UserApiClient.instance.me { user, error ->
+            if (user != null) {
+                Log.d("KAKAOUSER", user.toString())
+                Log.d("KAKAOPROPERTY", user.properties.toString())
+                Log.d("KAKAOUSERTOKEN", user.groupUserToken.toString())
+                Log.d("KAKAOID", user.id.toString())
+                Log.d("KAKAOCONNECTAT", user.connectedAt.toString())
+                Log.d("KAKAOKAKAOACCOUNT", user.kakaoAccount.toString())
+                Log.d("KAKAOSIGNEDUP", user.hasSignedUp.toString())
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
+            }
+        }
+
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
             }
             else if (tokenInfo != null) {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+
+                Log.d("KAKAOCLIENTAPI", UserApiClient.instance.toString())
+                Log.d("KAKAOTOKEN", tokenInfo.toString())
+                Log.d("KAKAOTOKENID", tokenInfo.id.toString())
+                Log.d("KAKAOTOKENAPPID", tokenInfo.appId.toString())
+                Log.d("KAKAOEXPIRES", tokenInfo.expiresIn.toString())
             }
         }
 
@@ -106,6 +134,12 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
             else if (token != null) {
+
+                Log.d("KAKAO_IDTOKEN", token.idToken.toString())
+                Log.d("KAKAO_REFRESH", token.refreshToken.toString())
+                Log.d("KAKAO_ACCESS", token.accessToken.toString())
+                Log.d("KAKAO_SCOPE", token.scopes.toString())
+
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -113,13 +147,14 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        val serviceTerms = listOf("service")
+        val serviceTerms = listOf("account_email", "phone_number", "birthday", "openid")
+
         //로그인 버튼 입력
         binding.kakao.setOnClickListener {
             if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
-                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
+                UserApiClient.instance.loginWithKakaoTalk(context = this, serviceTerms = serviceTerms, callback = callback)
             }else{
-                UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+                UserApiClient.instance.loginWithKakaoAccount(context = this, serviceTerms = serviceTerms, callback = callback)
             }
         }
     }
@@ -128,10 +163,20 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
+
         if (account == null) {
             Log.d("INFO", "로그인 안되있음")
         } else {
             Log.d("INFO", "로그인 완료된 상태")
+            Log.d("INFOGOOGLEAccount", account.toString())
+            Log.d("INFOGOOGLEId", account.id.toString())
+            Log.d("INFOGOOGLEEmail", account.email.toString())
+            Log.d("INFOGOOGLEIdToken", account.idToken.toString())
+            Log.d("INFOGOOGLEDisplayName", account.displayName.toString())
+            Log.d("INFOGOOGLEAuthCode", account.serverAuthCode.toString())
+            Log.d("INFOGOOGLEAccount", account.account.toString())
+            Log.d("INFOGOOGLEGrantedScopes", account.grantedScopes.toString())
+            Log.d("INFOGOOGLERequestScopes", account.requestedScopes.toString())
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
@@ -145,9 +190,9 @@ class LoginActivity : AppCompatActivity() {
             var googletoken = account?.idToken.toString()
             var googletokenAuth = account?.serverAuthCode.toString()
 
-            Log.d("INFO",email)
-            Log.d("INFO",googletoken)
-            Log.d("INFO", googletokenAuth)
+            Log.d("INFOGOOGLESuccess", email)
+            Log.d("INFOGOOGLESuccess", googletoken)
+            Log.d("INFOGOOGLESuccess", googletokenAuth)
 
             startActivity(Intent(this, MainActivity::class.java))
             finish()

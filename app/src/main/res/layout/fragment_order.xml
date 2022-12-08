@@ -12,20 +12,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sort by"
-        android:layout_marginStart="23dp"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
+        android:layout_gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
+        android:gravity="center"
         android:id="@+id/rg_sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -33,13 +32,13 @@
             android:layout_marginRight="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accuracy" />
+            android:text="최신순" />
 
         <RadioButton
             android:id="@+id/rb_latest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Latest" />
+            android:text="오래된순" />
     </RadioGroup>
 
     <LinearLayout
