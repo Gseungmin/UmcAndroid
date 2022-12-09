@@ -28,6 +28,10 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
         }
     }
 
+    fun getMyPicture() = viewModelScope.launch(Dispatchers.IO) {
+        _imageList.postValue(repository.getAllDataASC())
+    }
+
     fun insertData(bitmap: Bitmap, title: String, location: String, date: String) =
         viewModelScope.launch(Dispatchers.IO) {
             val dataEntity = DataEntity(0,title,location,bitmap,date)
