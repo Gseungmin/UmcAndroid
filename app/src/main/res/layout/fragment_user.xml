@@ -1,20 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.UserFragment">
+    tools:context=".ui.UserFragment"
+    android:background="@color/backgroundMain"
+    android:orientation="vertical">
 
-    <TextView
-        android:text="MyPage"
-        android:gravity="center"
-        android:textSize="60dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background=""
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </TextView>
+        android:layout_height="60dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:textColor="@color/black"
+            android:text="ji.sm.11"
+            android:gravity="center"
+            android:id="@+id/email"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:background="@color/main"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="140dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_imageArea"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                app:civ_border_overlay="true"
+                android:src="@drawable/w2"
+                />
+
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:id="@+id/name"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="지승민"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content">
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:padding="10dp"
+            android:src="@drawable/plus"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+        </ImageView>
+
+        <LinearLayout
+            android:background="#CBCBCB"
+            android:layout_width="match_parent"
+            android:layout_height="2dp">
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager"
+                android:layout_gravity="center"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!--CircleIndicator: 이미지를 넘길 때 이미지의 위치를 표시하는 효과-->
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="bottom"/>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

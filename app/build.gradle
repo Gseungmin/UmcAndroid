@@ -49,6 +49,9 @@ android {
 
 dependencies {
 
+    //circleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     //데이터 스토어
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
