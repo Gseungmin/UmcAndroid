@@ -81,14 +81,14 @@ class OrderFragment : Fragment() {
 //                    Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
 //                }
 //            }
-
-            /**
-             * 로그아웃
-             * */
-            Log.d("LOGOUT", auth.uid.toString())
-            if (auth.currentUser!!.uid != null) {
-                auth.currentUser!!.delete()
-            }
+//
+//            /**
+//             * 로그아웃
+//             * */
+//            Log.d("LOGOUT", auth.uid.toString())
+//            if (auth.currentUser!!.uid != null) {
+//                auth.currentUser!!.delete()
+//            }
 
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)

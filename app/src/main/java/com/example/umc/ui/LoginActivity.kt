@@ -7,9 +7,12 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
 import com.example.umc.databinding.ActivityLoginBinding
+import com.example.umc.viewmodel.ImageViewModel
+import com.example.umc.viewmodel.TokenViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -25,8 +28,8 @@ import com.kakao.sdk.user.UserApiClient
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-
     private lateinit var GoogleSignResultLauncher: ActivityResultLauncher<Intent>
+    lateinit var viewModel: TokenViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +37,15 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        viewModel = ViewModelProvider(this).get(TokenViewModel::class.java)
+
         binding.naver.setOnClickListener {
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
+//            startActivity(Intent(this, AuthActivity::class.java))
+//            finish()
+
+            val account = GoogleSignIn.getLastSignedInAccount(this)
+            val gToken = account?.idToken.toString()
+            viewModel.sendToken(gToken)
         }
 
         //사용자의 이메일 주소도 요청하려면 requestEmail 옵션 추가
@@ -168,17 +177,20 @@ class LoginActivity : AppCompatActivity() {
             Log.d("INFO", "로그인 안되있음")
         } else {
             Log.d("INFO", "로그인 완료된 상태")
-            Log.d("INFOGOOGLEAccount", account.toString())
-            Log.d("INFOGOOGLEId", account.id.toString())
-            Log.d("INFOGOOGLEEmail", account.email.toString())
-            Log.d("INFOGOOGLEIdToken", account.idToken.toString())
-            Log.d("INFOGOOGLEDisplayName", account.displayName.toString())
-            Log.d("INFOGOOGLEAuthCode", account.serverAuthCode.toString())
-            Log.d("INFOGOOGLEAccount", account.account.toString())
-            Log.d("INFOGOOGLEGrantedScopes", account.grantedScopes.toString())
-            Log.d("INFOGOOGLERequestScopes", account.requestedScopes.toString())
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+//            Log.d("INFOGOOGLEAccount", account.toString())
+            Log.d("INFOGOOGLEIDTOKEN", account.idToken.toString())
+//            Log.d("INFOGOOGLEEmail", account.email.toString())
+//            Log.d("INFOGOOGLEIdToken", account.idToken.toString())
+//            Log.d("INFOGOOGLEDisplayName", account.displayName.toString())
+//            Log.d("INFOGOOGLEAuthCode", account.serverAuthCode.toString())
+//            Log.d("INFOGOOGLEAccount", account.account.toString())
+//            Log.d("INFOGOOGLEGrantedScopes", account.grantedScopes.toString())
+//            Log.d("INFOGOOGLERequestScopes", account.requestedScopes.toString())
+
+//            viewModel.sendToken(account.idToken.toString())
+
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
         }
     }
 
@@ -190,9 +202,11 @@ class LoginActivity : AppCompatActivity() {
             var googletoken = account?.idToken.toString()
             var googletokenAuth = account?.serverAuthCode.toString()
 
-            Log.d("INFOGOOGLESuccess", email)
-            Log.d("INFOGOOGLESuccess", googletoken)
-            Log.d("INFOGOOGLESuccess", googletokenAuth)
+//            Log.d("INFOGOOGLESuccess", email)
+            Log.d("INFOGOOGLEIDTOKEN", googletoken)
+//            Log.d("INFOGOOGLESuccess", googletokenAuth)
+
+            viewModel.sendToken(googletoken)
 
             startActivity(Intent(this, MainActivity::class.java))
             finish()
