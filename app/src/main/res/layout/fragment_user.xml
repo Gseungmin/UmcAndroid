@@ -7,34 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.UserFragment">
 
-
-
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:text="MyPage"
+        android:gravity="center"
+        android:textSize="60dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <fragment android:id="@+id/autocomplete_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            />
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/map_view"
-            android:name="com.google.android.gms.maps.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.google.android.gms.maps.MapView>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/dialog"
-        android:layout_marginBottom="50dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/location_pin"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

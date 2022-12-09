@@ -5,13 +5,13 @@
         android:icon="@drawable/home"
         />
 
-<!--    <item android:id="@+id/fragment_user"-->
-<!--        android:title=""-->
-<!--        android:icon="@drawable/order"-->
-<!--        />-->
-
     <item android:id="@+id/fragment_order"
         android:title=""
         android:icon="@drawable/ect"
         />
+
+    <item android:id="@+id/fragment_user"
+            android:title=""
+            android:icon="@drawable/ic_baseline_account_circle_24"
+            />
 </menu>
