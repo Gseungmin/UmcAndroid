@@ -1,5 +1,6 @@
 package com.example.umc.ui
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
+import com.example.umc.api.accessToken.LoginRepository
 import com.example.umc.databinding.ActivityLoginBinding
 import com.example.umc.viewmodel.ImageViewModel
 import com.example.umc.viewmodel.TokenViewModel
@@ -200,16 +202,21 @@ class LoginActivity : AppCompatActivity() {
             val account = completedTask.getResult(ApiException::class.java)
             val email = account?.email.toString()
             var googletoken = account?.idToken.toString()
-            var googletokenAuth = account?.serverAuthCode.toString()
+            var googletokenAuth = account?.serverAuthCode
 
 //            Log.d("INFOGOOGLESuccess", email)
             Log.d("INFOGOOGLEIDTOKEN", googletoken)
 //            Log.d("INFOGOOGLESuccess", googletokenAuth)
 
-            viewModel.sendToken(googletoken)
+            if (googletokenAuth != null) {
+                Log.d("AuthCode", googletokenAuth.toString())
+                LoginRepository().getAccessToken(googletokenAuth)
+            }
 
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+//            viewModel.sendToken(googletoken)
+
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
         } catch (e: ApiException){
             Log.d("INFO","signInResult:failed Code = " + e.statusCode)
         }
