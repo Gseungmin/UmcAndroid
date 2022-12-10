@@ -1,4 +1,4 @@
-package com.example.umc.api.accessToken
+package com.example.umc.retrofit.dto
 
 import com.google.gson.annotations.SerializedName
 

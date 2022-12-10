@@ -1,14 +1,13 @@
-package com.example.umc.api
+package com.example.umc.retrofit.instance
 
 import com.example.umc.Constants.BASE_URL
-import okhttp3.Interceptor
+import com.example.umc.retrofit.api.TokenApi
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.IOException
 
 object RetrofitInstance {
 
@@ -19,26 +18,16 @@ object RetrofitInstance {
     }
 
     private val retrofit: Retrofit by lazy {
+
+        val gson = GsonBuilder().setLenient().create()
+
         Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient).baseUrl(BASE_URL).build() //build로 객체 생성
     }
 
-    val api: TokenApi by lazy {
+    val serverApi: TokenApi by lazy {
         retrofit.create(TokenApi::class.java)
     }
-
-//    /**
-//     * 토큰 객체 전달
-//     * */
-//    class HeaderInterceptor(private val token: String) : Interceptor {
-//        @Throws(IOException::class)
-//        override fun intercept(chain: Interceptor.Chain): Response {
-//            val token = "Bearer $token"
-//            val newRequest = chain.request().newBuilder()
-//                .addHeader("Authorization", token)
-//                .build()
-//            return chain.proceed(newRequest)
-//        }
-//    }
 }

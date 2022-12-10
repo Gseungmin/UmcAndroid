@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
-import com.example.umc.api.accessToken.LoginRepository
 import com.example.umc.databinding.ActivityLoginBinding
-import com.example.umc.viewmodel.ImageViewModel
 import com.example.umc.viewmodel.TokenViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -47,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
             val account = GoogleSignIn.getLastSignedInAccount(this)
             val gToken = account?.idToken.toString()
-            viewModel.sendToken(gToken)
+            viewModel.sendIdToken(gToken)
         }
 
         //사용자의 이메일 주소도 요청하려면 requestEmail 옵션 추가
@@ -210,7 +208,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (googletokenAuth != null) {
                 Log.d("AuthCode", googletokenAuth.toString())
-                LoginRepository().getAccessToken(googletokenAuth)
+                viewModel.getAccessToken(googletokenAuth)
             }
 
 //            viewModel.sendToken(googletoken)

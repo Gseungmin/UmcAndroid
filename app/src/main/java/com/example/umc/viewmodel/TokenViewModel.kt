@@ -13,20 +13,11 @@ class TokenViewModel() : ViewModel() {
 
     private val repository = TokenRepository()
 
-    fun sendToken(idToken: String) = viewModelScope.launch {
-        val returnValue = repository.sendToken(idToken)
+    fun sendIdToken(idToken: String) = viewModelScope.launch {
+        repository.sendIdToken(idToken)
+    }
 
-        returnValue.enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
+    fun getAccessToken(authCode:String) = viewModelScope.launch {
+        repository.getAccessToken(authCode)
     }
 }
