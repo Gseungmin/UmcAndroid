@@ -1,5 +1,6 @@
 package com.example.umc.retrofit.api
 
+import com.example.umc.Constants.Access
 import com.example.umc.Constants.idToken
 import com.example.umc.Constants.kakaoToken
 import com.example.umc.retrofit.dto.SendAccessTokenModel
@@ -32,4 +33,12 @@ interface TokenApi {
     @POST("/kakao")
     @Headers("content-type: application/json", "Authorization:Bearer ${kakaoToken}")
     fun kakao():Call<String>
+
+    @GET("/")
+    @Headers("content-type: application/json", "Authorization:Bearer ${Access}")
+    fun home():Call<String>
+
+    @GET("/testToken")
+    @Headers("content-type: application/json", "Authorization:Bearer ${Access}")
+    fun test():Call<String>
 }

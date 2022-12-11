@@ -120,6 +120,23 @@ class TokenRepository() {
         return returnValue
     }
 
+    fun home(): Call<String> {
+        val returnValue = serverApi.home()
+        returnValue.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+        return returnValue
+    }
+
     companion object {
         const val TAG = "LoginRepository"
     }

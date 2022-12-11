@@ -44,9 +44,9 @@ class LoginActivity : AppCompatActivity() {
 //            startActivity(Intent(this, AuthActivity::class.java))
 //            finish()
 
-            val account = GoogleSignIn.getLastSignedInAccount(this)
-            val gToken = account?.idToken.toString()
-            viewModel.sendIdToken(gToken)
+//            val account = GoogleSignIn.getLastSignedInAccount(this)
+//            val gToken = account?.idToken.toString()
+            viewModel.home()
         }
 
         //사용자의 이메일 주소도 요청하려면 requestEmail 옵션 추가
@@ -210,15 +210,17 @@ class LoginActivity : AppCompatActivity() {
             Log.d("INFOGOOGLEIDTOKEN", googletoken)
 //            Log.d("INFOGOOGLESuccess", googletokenAuth)
 
-//            if (googletokenAuth != null) {
-//                Log.d("AuthCode", googletokenAuth.toString())
-//                viewModel.getAccessToken(googletokenAuth)
-//            }
+            if (googletokenAuth != null) {
+                val accessToken = viewModel.getAccessToken(googletokenAuth)
+                Log.d("ACCESSToken", accessToken.toString())
+            }
+
+
 
             val userDto = UserDto(email)
 //            viewModel.login(userDto)
 
-            viewModel.index()
+//            viewModel.index()
 
 //            viewModel.sendToken(googletoken)
 

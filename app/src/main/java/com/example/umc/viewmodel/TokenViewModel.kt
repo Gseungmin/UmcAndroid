@@ -33,4 +33,8 @@ class TokenViewModel() : ViewModel() {
     fun kakao() = viewModelScope.launch {
         repository.kakao()
     }
+
+    fun home() = viewModelScope.launch {
+        repository.home()
+    }
 }
