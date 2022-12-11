@@ -1,6 +1,5 @@
 package com.example.umc.repository
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import com.example.umc.Sort

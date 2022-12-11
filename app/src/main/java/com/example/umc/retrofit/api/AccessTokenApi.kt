@@ -10,9 +10,4 @@ interface AccessTokenApi {
 
     @POST("oauth2/v4/token")
     fun getAccessToken(@Body request: LoginGoogleRequestModel): Call<LoginGoogleResponseModel>
-
-
-//    @POST("login")
-//    @Headers("content-type: application/json")
-//    fun sendAccessToken(@Body accessToken:SendAccessTokenModel):Call<String>
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
 import com.example.umc.databinding.ActivityLoginBinding
+import com.example.umc.retrofit.dto.UserDto
 import com.example.umc.viewmodel.TokenViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -90,6 +91,9 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("KAKAOCONNECTAT", user.connectedAt.toString())
                 Log.d("KAKAOKAKAOACCOUNT", user.kakaoAccount.toString())
                 Log.d("KAKAOSIGNEDUP", user.hasSignedUp.toString())
+
+                //kakao 로그인
+                viewModel.kakao()
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -206,10 +210,15 @@ class LoginActivity : AppCompatActivity() {
             Log.d("INFOGOOGLEIDTOKEN", googletoken)
 //            Log.d("INFOGOOGLESuccess", googletokenAuth)
 
-            if (googletokenAuth != null) {
-                Log.d("AuthCode", googletokenAuth.toString())
-                viewModel.getAccessToken(googletokenAuth)
-            }
+//            if (googletokenAuth != null) {
+//                Log.d("AuthCode", googletokenAuth.toString())
+//                viewModel.getAccessToken(googletokenAuth)
+//            }
+
+            val userDto = UserDto(email)
+//            viewModel.login(userDto)
+
+            viewModel.index()
 
 //            viewModel.sendToken(googletoken)
 
