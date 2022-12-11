@@ -44,8 +44,10 @@ class LoginActivity : AppCompatActivity() {
 //            startActivity(Intent(this, AuthActivity::class.java))
 //            finish()
 
-//            val account = GoogleSignIn.getLastSignedInAccount(this)
-//            val gToken = account?.idToken.toString()
+            val account = GoogleSignIn.getLastSignedInAccount(this)
+
+            Log.d("SCOPE", account?.grantedScopes.toString())
+            Log.d("SCOPE", account?.toString().toString())
 //            viewModel.home()
             viewModel.test()
         }
@@ -93,8 +95,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("KAKAOKAKAOACCOUNT", user.kakaoAccount.toString())
                 Log.d("KAKAOSIGNEDUP", user.hasSignedUp.toString())
 
-                //kakao 로그인
-                viewModel.kakao()
+//                //kakao 로그인
+//                viewModel.kakao()
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -155,9 +157,9 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("KAKAO_SCOPE", token.scopes.toString())
 
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                finish()
             }
         }
 
