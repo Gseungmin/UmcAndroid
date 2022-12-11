@@ -1,6 +1,8 @@
 package com.example.umc.retrofit.api
 
 import com.example.umc.Constants.Access
+import com.example.umc.Constants.GoogleAccessTokenUri
+import com.example.umc.Constants.googleeAccess
 import com.example.umc.Constants.idToken
 import com.example.umc.Constants.kakaoToken
 import com.example.umc.retrofit.dto.SendAccessTokenModel
@@ -39,6 +41,6 @@ interface TokenApi {
     fun home():Call<String>
 
     @GET("/testToken")
-    @Headers("content-type: application/json", "Authorization:Bearer ${Access}")
+    @Headers("content-type: application/json", "Authorization:Bearer ${idToken}")
     fun test():Call<String>
 }

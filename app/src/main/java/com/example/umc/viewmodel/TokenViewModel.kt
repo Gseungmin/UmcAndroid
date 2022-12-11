@@ -37,4 +37,9 @@ class TokenViewModel() : ViewModel() {
     fun home() = viewModelScope.launch {
         repository.home()
     }
+
+    fun test() = viewModelScope.launch {
+        repository.test()
+    }
+
 }
