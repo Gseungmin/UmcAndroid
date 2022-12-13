@@ -7,10 +7,11 @@ import com.example.umc.retrofit.instance.AccessRetrofitInstance.accessTokenApi
 import com.example.umc.retrofit.dto.LoginGoogleRequestModel
 import com.example.umc.retrofit.dto.LoginGoogleResponseModel
 import com.example.umc.retrofit.dto.SendAccessTokenModel
-import com.example.umc.retrofit.dto.UserDto
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Objects
 
 class TokenRepository() {
 
@@ -69,21 +70,8 @@ class TokenRepository() {
         })
     }
 
-    fun login(userDto: UserDto): Call<UserDto> {
-        val returnValue = serverApi.login(userDto)
-        returnValue.enqueue(object : Callback<UserDto> {
-            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<UserDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-        return returnValue
+    fun login(idToken: String, case: String): Call<ResponseBody> {
+        return serverApi.login(idToken,case)
     }
 
     fun index(): Call<String> {
@@ -137,8 +125,76 @@ class TokenRepository() {
         return returnValue
     }
 
-    fun test(): Call<String> {
-        val returnValue = serverApi.test()
+    fun test(accessToken: String): Call<Objects> {
+        val returnValue = serverApi.test(accessToken)
+        returnValue.enqueue(object : Callback<Objects> {
+            override fun onResponse(call: Call<Objects>, response: Response<Objects>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<Objects>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+        return returnValue
+    }
+
+    fun kakaoLogin(accessToken: String): Call<Objects> {
+        val returnValue = serverApi.kakaoLogin(accessToken)
+        returnValue.enqueue(object : Callback<Objects> {
+            override fun onResponse(call: Call<Objects>, response: Response<Objects>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<Objects>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+        return returnValue
+    }
+
+    fun googleLogin(accessToken: String): Call<Objects> {
+        val returnValue = serverApi.googleLogin(accessToken)
+        returnValue.enqueue(object : Callback<Objects> {
+            override fun onResponse(call: Call<Objects>, response: Response<Objects>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<Objects>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+        return returnValue
+    }
+
+    fun check(): Call<Objects> {
+        val returnValue = serverApi.check()
+        returnValue.enqueue(object : Callback<Objects> {
+            override fun onResponse(call: Call<Objects>, response: Response<Objects>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<Objects>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+        return returnValue
+    }
+
+    fun please(): Call<String> {
+        val returnValue = serverApi.please()
         returnValue.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if (response.isSuccessful) {
@@ -153,6 +209,7 @@ class TokenRepository() {
         })
         return returnValue
     }
+
 
     companion object {
         const val TAG = "LoginRepository"

@@ -1,6 +1,5 @@
 package com.example.umc.ui
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
+import com.example.umc.Constants.idToken
 import com.example.umc.databinding.ActivityLoginBinding
-import com.example.umc.retrofit.dto.UserDto
 import com.example.umc.viewmodel.TokenViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -40,16 +39,12 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(TokenViewModel::class.java)
 
+        binding.auth.setOnClickListener {
+            Log.d("TEST", viewModel.accessToken.value.toString())
+            viewModel.test(viewModel.accessToken.value.toString())
+        }
+
         binding.naver.setOnClickListener {
-//            startActivity(Intent(this, AuthActivity::class.java))
-//            finish()
-
-            val account = GoogleSignIn.getLastSignedInAccount(this)
-
-            Log.d("SCOPE", account?.grantedScopes.toString())
-            Log.d("SCOPE", account?.toString().toString())
-//            viewModel.home()
-            viewModel.test()
         }
 
         //사용자의 이메일 주소도 요청하려면 requestEmail 옵션 추가
@@ -98,9 +93,9 @@ class LoginActivity : AppCompatActivity() {
 //                //kakao 로그인
 //                viewModel.kakao()
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                finish()
             }
         }
 
@@ -156,6 +151,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("KAKAO_ACCESS", token.accessToken.toString())
                 Log.d("KAKAO_SCOPE", token.scopes.toString())
 
+                viewModel.kakaoLogin(token.accessToken)
+
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 //                val intent = Intent(this, MainActivity::class.java)
 //                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -184,17 +181,9 @@ class LoginActivity : AppCompatActivity() {
             Log.d("INFO", "로그인 안되있음")
         } else {
             Log.d("INFO", "로그인 완료된 상태")
-//            Log.d("INFOGOOGLEAccount", account.toString())
             Log.d("INFOGOOGLEIDTOKEN", account.idToken.toString())
             Log.d("INFOGOOGLEIDTOKEN", account.grantedScopes.toString())
             Log.d("INFOGOOGLEIDTOKEN", account.requestedScopes.toString())
-//            Log.d("INFOGOOGLEEmail", account.email.toString())
-//            Log.d("INFOGOOGLEIdToken", account.idToken.toString())
-//            Log.d("INFOGOOGLEDisplayName", account.displayName.toString())
-//            Log.d("INFOGOOGLEAuthCode", account.serverAuthCode.toString())
-//            Log.d("INFOGOOGLEAccount", account.account.toString())
-//            Log.d("INFOGOOGLEGrantedScopes", account.grantedScopes.toString())
-//            Log.d("INFOGOOGLERequestScopes", account.requestedScopes.toString())
 
 //            viewModel.sendToken(account.idToken.toString())
 
@@ -211,21 +200,14 @@ class LoginActivity : AppCompatActivity() {
             var googletoken = account?.idToken.toString()
             var googletokenAuth = account?.serverAuthCode
 
-//            Log.d("INFOGOOGLESuccess", email)
-            Log.d("INFOGOOGLEIDTOKEN", googletoken)
-//            Log.d("INFOGOOGLESuccess", googletokenAuth)
+            viewModel.login(googletoken, "google")
 
-            if (googletokenAuth != null) {
-                val accessToken = viewModel.getAccessToken(googletokenAuth)
-                Log.d("ACCESSToken", accessToken.toString())
-            }
 
-            val userDto = UserDto(email)
-//            viewModel.login(userDto)
-
-//            viewModel.index()
-
-//            viewModel.sendToken(googletoken)
+//            if (googletokenAuth != null) {
+//                val accessToken = viewModel.getAccessToken(googletokenAuth)
+//                Log.d("ACCESSToken", accessToken.toString())
+//                viewModel.googleLogin(googletokenAuth)
+//            }
 
 //            startActivity(Intent(this, MainActivity::class.java))
 //            finish()

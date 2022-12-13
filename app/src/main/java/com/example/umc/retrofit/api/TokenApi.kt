@@ -7,12 +7,11 @@ import com.example.umc.Constants.idToken
 import com.example.umc.Constants.kakaoToken
 import com.example.umc.retrofit.dto.SendAccessTokenModel
 import com.example.umc.retrofit.dto.UserDto
+import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.Retrofit
+import retrofit2.http.*
+import java.util.Objects
 
 interface TokenApi {
 
@@ -24,9 +23,10 @@ interface TokenApi {
     @Headers("content-type: application/json")
     fun sendAccessToken(@Body accessToken: SendAccessTokenModel):Call<String>
 
-    @POST("login")
+    @POST("/login")
     @Headers("content-type: application/json")
-    fun login(@Body userDto: UserDto):Call<UserDto>
+    fun login(@Header("Authorization") idToken:
+              String, @Header("LoginCase") case: String):Call<ResponseBody>
 
     @POST("/google")
     @Headers("content-type: application/json", "Authorization:Bearer ${idToken}")
@@ -40,7 +40,21 @@ interface TokenApi {
     @Headers("content-type: application/json", "Authorization:Bearer ${Access}")
     fun home():Call<String>
 
-    @GET("/testToken")
-    @Headers("content-type: application/json", "Authorization:Bearer ${idToken}")
-    fun test():Call<String>
+    @GET("/api/user")
+    @Headers("content-type: application/json")
+    fun test(@Header("Authorization") accessToken: String):Call<Objects>
+
+    @POST("/kakaoLogin")
+    fun kakaoLogin(@Query("accessToken") param: String): Call<Objects>
+
+    @POST("/googleLogin")
+    fun googleLogin(@Query("authorizationCode") param: String): Call<Objects>
+
+    @POST("/check")
+    @Headers("content-type: application/json", "Authorization: ${idToken}")
+    fun check():Call<Objects>
+
+    @GET("/please")
+    @Headers("content-type: application/json", "Authorization:Bearer ${Access}")
+    fun please():Call<String>
 }
