@@ -151,7 +151,7 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("KAKAO_ACCESS", token.accessToken.toString())
                 Log.d("KAKAO_SCOPE", token.scopes.toString())
 
-                viewModel.kakaoLogin(token.accessToken)
+                viewModel.login(token.accessToken.toString(), "kakao")
 
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 //                val intent = Intent(this, MainActivity::class.java)
