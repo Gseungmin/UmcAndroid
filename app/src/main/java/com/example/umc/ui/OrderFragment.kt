@@ -48,8 +48,8 @@ class OrderFragment : Fragment() {
 
         viewModel = (activity as MainActivity).viewModel
 
-        saveSettings()
-        loadSettings()
+//        saveSettings()
+//        loadSettings()
 
         binding.delete.setOnClickListener {
             viewModel.deleteData()
@@ -110,32 +110,32 @@ class OrderFragment : Fragment() {
         }
     }
 
-    //datastore code
-    //값을 datastore에 반영
-    private fun saveSettings() {
-        binding.rgSort.setOnCheckedChangeListener { _, checkedId ->
-            val value = when (checkedId) { //check된 버튼을 확인 한 후
-                //해당되는 sort값을 받아와서 정의해서 저장
-                R.id.rb_accuracy -> Sort.ACCURACY.value
-                R.id.rb_latest -> Sort.LATEST.value
-                else -> return@setOnCheckedChangeListener
-            } //저장
-            viewModel.saveSortMode(value)
-        }
-    }
-
-    //radio button에 반영
-    private fun loadSettings() {
-        lifecycleScope.launch {
-            //불러온 값을 확인한후 라디오 버튼에 반영
-            val buttonId = when (viewModel.getSortMode()) {
-                Sort.ACCURACY.value -> R.id.rb_accuracy
-                Sort.LATEST.value -> R.id.rb_latest
-                else -> return@launch
-            }
-            binding.rgSort.check(buttonId)
-        }
-    }
+//    //datastore code
+//    //값을 datastore에 반영
+//    private fun saveSettings() {
+//        binding.rgSort.setOnCheckedChangeListener { _, checkedId ->
+//            val value = when (checkedId) { //check된 버튼을 확인 한 후
+//                //해당되는 sort값을 받아와서 정의해서 저장
+//                R.id.rb_accuracy -> Sort.ACCURACY.value
+//                R.id.rb_latest -> Sort.LATEST.value
+//                else -> return@setOnCheckedChangeListener
+//            } //저장
+//            viewModel.saveSortMode(value)
+//        }
+//    }
+//
+//    //radio button에 반영
+//    private fun loadSettings() {
+//        lifecycleScope.launch {
+//            //불러온 값을 확인한후 라디오 버튼에 반영
+//            val buttonId = when (viewModel.getSortMode()) {
+//                Sort.ACCURACY.value -> R.id.rb_accuracy
+//                Sort.LATEST.value -> R.id.rb_latest
+//                else -> return@launch
+//            }
+//            binding.rgSort.check(buttonId)
+//        }
+//    }
 
     //viewBinding이 더이상 필요 없을 경우 null 처리 필요
     override fun onDestroy() {

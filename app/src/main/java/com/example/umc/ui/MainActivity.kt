@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         val database = DataBase.getDatabase(this)
-        val dataRepository = DataRepository(database, dataStore)
+        val dataRepository = DataRepository(database)
         val factory = ImageViewModelFactory(dataRepository)
         viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
 

@@ -42,6 +42,9 @@ class LoginActivity : AppCompatActivity() {
         binding.auth.setOnClickListener {
             Log.d("TEST", viewModel.accessToken.value.toString())
             viewModel.test(viewModel.accessToken.value.toString())
+
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         binding.naver.setOnClickListener {

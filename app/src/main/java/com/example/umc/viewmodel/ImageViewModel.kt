@@ -21,11 +21,12 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
         get() = _imageList
     
     fun getData() = viewModelScope.launch(Dispatchers.IO) {
-        if (getSortMode() == "accuracy") {
-            _imageList.postValue(repository.getAllDataASC())
-        } else if (getSortMode() == "latest") {
-            _imageList.postValue(repository.getAllDataDESC())
-        }
+//        if (getSortMode() == "accuracy") {
+//            _imageList.postValue(repository.getAllDataASC())
+//        } else if (getSortMode() == "latest") {
+//            _imageList.postValue(repository.getAllDataDESC())
+//        }
+        _imageList.postValue(repository.getAllDataASC())
     }
 
     fun getMyPicture() = viewModelScope.launch(Dispatchers.IO) {
@@ -51,17 +52,17 @@ class ImageViewModel(private val repository: DataRepository) : ViewModel() {
         _datas.value = images
     }
 
-    //DataStore
-    //값을 저장
-    //repository의 saveSortMode를 viewModelScope에서 실행하되 IO 작업이므로 Dispatchers를 IO로 설정
-    fun saveSortMode(value: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.saveSortMode(value)
-    }
-
-    //값을 불러옴
-    suspend fun getSortMode() = withContext(Dispatchers.IO) {
-        //설정 값 특성상 전체 데이터 스트림을 가져올 필요 없음
-        //withContext는 반드시 값을 반환하고 종료됨
-        repository.getSortMode().first()
-    }
+//    //DataStore
+//    //값을 저장
+//    //repository의 saveSortMode를 viewModelScope에서 실행하되 IO 작업이므로 Dispatchers를 IO로 설정
+//    fun saveSortMode(value: String) = viewModelScope.launch(Dispatchers.IO) {
+//        repository.saveSortMode(value)
+//    }
+//
+//    //값을 불러옴
+//    suspend fun getSortMode() = withContext(Dispatchers.IO) {
+//        //설정 값 특성상 전체 데이터 스트림을 가져올 필요 없음
+//        //withContext는 반드시 값을 반환하고 종료됨
+//        repository.getSortMode().first()
+//    }
 }
