@@ -7,6 +7,7 @@ import com.example.umc.retrofit.instance.AccessRetrofitInstance.accessTokenApi
 import com.example.umc.retrofit.dto.LoginGoogleRequestModel
 import com.example.umc.retrofit.dto.LoginGoogleResponseModel
 import com.example.umc.retrofit.dto.SendAccessTokenModel
+import com.example.umc.retrofit.dto.UserDto
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -71,17 +72,24 @@ class TokenRepository() {
     }
 
     /**
-     * LOGIN
+     * LOGIN API
      * */
     fun login(idToken: String, case: String): Call<ResponseBody> {
         return serverApi.login(idToken,case)
     }
 
     /**
-     * 서버와 연결
+     * 서버와 연결 API
      * */
     fun connectServer(accessToken: String): Call<ResponseBody> {
         return serverApi.connectServer(accessToken)
+    }
+
+    /**
+     * 사용자 정보 조회 API
+     * */
+    fun userInfo(accessToken: String): Call<UserDto> {
+        return serverApi.userInfo(accessToken)
     }
 
     fun index(): Call<String> {

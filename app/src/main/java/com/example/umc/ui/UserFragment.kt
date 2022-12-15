@@ -13,6 +13,7 @@ import com.example.umc.adapter.PagerAdapter
 import com.example.umc.databinding.FragmentUserBinding
 import com.example.umc.model.Image
 import com.example.umc.viewmodel.ImageViewModel
+import com.example.umc.viewmodel.MyInfoViewModel
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -20,6 +21,7 @@ class UserFragment : Fragment() {
 
     private lateinit var binding: FragmentUserBinding
     lateinit var viewModel: ImageViewModel
+    lateinit var myInfoViewModel: MyInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +42,19 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
+        myInfoViewModel = (activity as MainActivity).myInfoViewModel
 
         //초기화
         viewModel.getMyPicture()
+        myInfoViewModel.getMyInfo()
+
+        myInfoViewModel.email.observe(viewLifecycleOwner) {
+            binding.email.text = it
+        }
+
+        myInfoViewModel.name.observe(viewLifecycleOwner) {
+            binding.name.text = it
+        }
 
         val initList = mutableListOf<Uri>()
 

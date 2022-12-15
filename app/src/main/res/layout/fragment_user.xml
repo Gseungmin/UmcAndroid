@@ -48,7 +48,7 @@
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 app:civ_border_overlay="true"
-                android:src="@drawable/w2"
+                android:src="@drawable/my"
                 />
 
             <TextView

@@ -16,6 +16,7 @@ import com.example.umc.db.DataBase
 import com.example.umc.repository.DataRepository
 import com.example.umc.viewmodel.ImageViewModel
 import com.example.umc.viewmodel.ImageViewModelFactory
+import com.example.umc.viewmodel.MyInfoViewModel
 import com.example.umc.viewmodel.TokenViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     lateinit var viewModel: ImageViewModel
     lateinit var tokenViewModel: TokenViewModel
+    lateinit var myInfoViewModel: MyInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         val factory = ImageViewModelFactory(dataRepository)
         viewModel = ViewModelProvider(this, factory).get(ImageViewModel::class.java)
         tokenViewModel = ViewModelProvider(this).get(TokenViewModel::class.java)
+        myInfoViewModel = ViewModelProvider(this).get(MyInfoViewModel::class.java)
 
         navigation()
     }

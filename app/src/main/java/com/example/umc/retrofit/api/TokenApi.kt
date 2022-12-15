@@ -32,6 +32,10 @@ interface TokenApi {
     @Headers("content-type: application/json")
     fun connectServer(@Header("Authorization") accessToken: String):Call<ResponseBody>
 
+    @GET("/userInfo")
+    @Headers("content-type: application/json")
+    fun userInfo(@Header("Authorization") accessToken: String):Call<UserDto>
+
     @POST("/google")
     @Headers("content-type: application/json", "Authorization:Bearer ${idToken}")
     fun index():Call<String>
