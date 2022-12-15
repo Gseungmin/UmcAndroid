@@ -23,9 +23,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     lateinit var viewModel: ImageViewModel
 
-    //dataStore의 싱글톤 객체 생성
-    private val Context.dataStore by preferencesDataStore(DATASTORE_NAME)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

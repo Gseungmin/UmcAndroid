@@ -2,11 +2,13 @@ package com.example.coinstudy.dataStore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.umc.App
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import java.io.IOException
 
 class MyDataStore {
 
@@ -19,38 +21,54 @@ class MyDataStore {
      * dataStore 객체 전역 변수로 초기화
      * */
     companion object {
-        private val Context.dataStore : DataStore<Preferences> by preferencesDataStore("user_pref")
+        private val Context.dataStore : DataStore<Preferences> by preferencesDataStore("user_token")
     }
 
     private val mDataStore : DataStore<Preferences> = context.dataStore
 
-    private val FIRST_FLAG = booleanPreferencesKey("FIRST_FLAG")
+    private val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
 
     /**
-     * First Flag의 값을 변경하는 함수
-     * 따라서 메인 엑티비티로 갈때 True로 변경
-     * 따라서 처음 접속하는 User가 아니면 True, 처음 접속하는 User이면 False
+     * ACCESS_TOKEN의 값을 변경하는 함수
+     * edit 메소드를 통해 token 값 저장
      * */
-    suspend fun setupFirstData() {
+    suspend fun setAccessToken(token : String) {
         mDataStore.edit {
             preferences ->
-            preferences[FIRST_FLAG] = true
+            preferences[ACCESS_TOKEN] = token
         }
     }
 
     /**
-     * 현재 First Flag 값을 가지고오는 함수
+     * 현재 ACCESS_TOKEN 값을 가지고오는 함수
+     * catch 메소드를 통해 예외 처리
+     * map 메소드를 통해 데이터 가져옴
      * */
-    suspend fun getFirstData() : Boolean {
+    //파일 접근을 위해서는 data 메소드 사용
+    //캐치로 예외처리하고 웹 블록 안에서 키를 전달하여 플로우로 반환받으면 됨
+    suspend fun getAccessToken(): Flow<String> {
+        return mDataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    exception.printStackTrace()
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                preferences[ACCESS_TOKEN] ?: ""
+            }
+    }
 
-        var currentValue = false
-
-        //처음 접속한 user는 false, 아니면 true 리턴
+    /**
+     * ACCESS_TOKEN을 초기화 해주는 함수
+     * 로그아웃시 edit 메소드를 통해 ACCESS_TOKEN 초기화
+     * */
+    suspend fun deleteAccessToken() {
         mDataStore.edit {
                 preferences ->
-            currentValue = preferences[FIRST_FLAG] ?: false
+            preferences[ACCESS_TOKEN] = ""
         }
-
-        return currentValue
     }
 }
