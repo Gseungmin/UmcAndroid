@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.umc.App
+import com.example.umc.Sort
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -28,6 +29,8 @@ class MyDataStore {
     private val mDataStore : DataStore<Preferences> = context.dataStore
 
     private val ACCESS_TOKEN = stringPreferencesKey("ACCESS_TOKEN")
+
+    private val SORT_MODE = stringPreferencesKey("SORT_MODE")
 
     /**
      * ACCESS_TOKEN의 값을 변경하는 함수
@@ -71,5 +74,33 @@ class MyDataStore {
                 preferences ->
             preferences[ACCESS_TOKEN] = ""
         }
+    }
+
+    /**
+     * sortMode 저장
+     * */
+    suspend fun saveSortMode(mode: String) {
+        mDataStore.edit { prefs ->
+            prefs[SORT_MODE] = mode
+        }
+    }
+
+    /**
+     * sortMode 조회, 맨 처음 값은 ACCURACY
+     * */
+    suspend fun getSortMode(): Flow<String> {
+        return mDataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    exception.printStackTrace()
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { prefs ->
+                //기본값은 ACCURACY
+                prefs[SORT_MODE] ?: Sort.ACCURACY.value
+            }
     }
 }
