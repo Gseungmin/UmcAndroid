@@ -70,8 +70,18 @@ class TokenRepository() {
         })
     }
 
+    /**
+     * LOGIN
+     * */
     fun login(idToken: String, case: String): Call<ResponseBody> {
         return serverApi.login(idToken,case)
+    }
+
+    /**
+     * 서버와 연결
+     * */
+    fun connectServer(accessToken: String): Call<ResponseBody> {
+        return serverApi.connectServer(accessToken)
     }
 
     fun index(): Call<String> {
@@ -119,23 +129,6 @@ class TokenRepository() {
                 }
             }
             override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-        return returnValue
-    }
-
-    fun test(accessToken: String): Call<Objects> {
-        val returnValue = serverApi.test(accessToken)
-        returnValue.enqueue(object : Callback<Objects> {
-            override fun onResponse(call: Call<Objects>, response: Response<Objects>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<Objects>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

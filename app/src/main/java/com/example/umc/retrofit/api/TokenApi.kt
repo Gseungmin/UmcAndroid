@@ -28,6 +28,10 @@ interface TokenApi {
     fun login(@Header("Authorization") idToken:
               String, @Header("LoginCase") case: String):Call<ResponseBody>
 
+    @GET("/api/user")
+    @Headers("content-type: application/json")
+    fun connectServer(@Header("Authorization") accessToken: String):Call<ResponseBody>
+
     @POST("/google")
     @Headers("content-type: application/json", "Authorization:Bearer ${idToken}")
     fun index():Call<String>
@@ -39,10 +43,6 @@ interface TokenApi {
     @GET("/")
     @Headers("content-type: application/json", "Authorization:Bearer ${Access}")
     fun home():Call<String>
-
-    @GET("/api/user")
-    @Headers("content-type: application/json")
-    fun test(@Header("Authorization") accessToken: String):Call<Objects>
 
     @POST("/kakaoLogin")
     fun kakaoLogin(@Query("accessToken") param: String): Call<Objects>

@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.coinstudy.dataStore.MyDataStore
 import com.example.umc.Constants.GClientId
 import com.example.umc.Constants.KAKAO_KEY
 import com.example.umc.Constants.idToken
@@ -40,11 +42,11 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(TokenViewModel::class.java)
 
         binding.auth.setOnClickListener {
-            Log.d("TEST", viewModel.accessToken.value.toString())
-            viewModel.test(viewModel.accessToken.value.toString())
-
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+//            Log.d("TEST", viewModel.accessToken.value.toString())
+//            viewModel.test(viewModel.accessToken.value.toString())
+//
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
         }
 
         binding.naver.setOnClickListener {
@@ -178,6 +180,17 @@ class LoginActivity : AppCompatActivity() {
     //로그인 상태 확인
     override fun onStart() {
         super.onStart()
+
+        viewModel.checkAccessToken()
+
+        viewModel.accessToken.observe(this, Observer {
+            if (it != "") {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
+
         val account = GoogleSignIn.getLastSignedInAccount(this)
 
         if (account == null) {

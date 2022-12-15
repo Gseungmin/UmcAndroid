@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.coinstudy.dataStore.MyDataStore
 import com.example.umc.R
 import com.example.umc.Sort
 import com.example.umc.databinding.FragmentOrderBinding
 import com.example.umc.viewmodel.ImageViewModel
+import com.example.umc.viewmodel.TokenViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +32,7 @@ class OrderFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var viewModel: ImageViewModel
+    lateinit var tokenViewModel: TokenViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +50,8 @@ class OrderFragment : Fragment() {
         auth = Firebase.auth
 
         viewModel = (activity as MainActivity).viewModel
+        tokenViewModel = (activity as MainActivity).tokenViewModel
+
 
 //        saveSettings()
 //        loadSettings()
@@ -83,6 +88,8 @@ class OrderFragment : Fragment() {
                     Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                 }
             }
+
+            tokenViewModel.deleteAccessToken()
 //
 //            /**
 //             * 로그아웃
