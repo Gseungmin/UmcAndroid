@@ -20,14 +20,6 @@ class TokenViewModel() : ViewModel() {
     val accessToken : LiveData<String>
         get() = _accessToken
 
-    fun sendIdToken(idToken: String) = viewModelScope.launch {
-        repository.sendIdToken(idToken)
-    }
-
-    fun getAccessToken(authCode:String) = viewModelScope.launch {
-        repository.getAccessToken(authCode)
-    }
-
     fun login(idToken: String, case: String) = viewModelScope.launch {
         val response = repository.login(idToken, case)
         response.enqueue(object : Callback<ResponseBody> {
@@ -45,35 +37,7 @@ class TokenViewModel() : ViewModel() {
         })
     }
 
-    fun index() = viewModelScope.launch {
-        repository.index()
-    }
-
-    fun kakao() = viewModelScope.launch {
-        repository.kakao()
-    }
-
-    fun home() = viewModelScope.launch {
-        repository.home()
-    }
-
     fun test(accessToken: String) = viewModelScope.launch {
         repository.test(accessToken)
-    }
-
-    fun kakaoLogin(accessToken: String) = viewModelScope.launch {
-        repository.kakaoLogin(accessToken)
-    }
-
-    fun googleLogin(accessToken: String) = viewModelScope.launch {
-        repository.googleLogin(accessToken)
-    }
-
-    fun check() = viewModelScope.launch {
-        repository.check()
-    }
-
-    fun please() = viewModelScope.launch {
-        repository.please()
     }
 }
