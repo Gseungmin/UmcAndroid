@@ -13,9 +13,3 @@
 .externalNativeBuild
 .cxx
 local.properties
-
-app/src/main/AndroidManifest.xml
-
-app/src/main/AndroidManifest
-
-app/src/main/java/com/example/umc/Constants.kt
